@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "EUHgwjOBfeh/P2sUFvcWJE/sPweCtHO2i7dMx7uSHy8=",
+  "Source": "Project.Server",
+  "BasePath": "_content/Project.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\project.client\\project.client.esproj",
+      "Version": 2,
+      "Source": "project.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
