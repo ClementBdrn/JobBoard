@@ -123,7 +123,7 @@ export default function SideNav() {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/about") }}>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/liked") }}>
                         <ListItemButton sx={[{ minHeight: 48, px: 2.5, },
                         open
                             ? {
@@ -145,7 +145,7 @@ export default function SideNav() {
                                 <InboxIcon />
                             </ListItemIcon>
                             <ListItemText
-                                primary="About"
+                                primary="Liked"
                                 sx={[
                                     open
                                         ? {
@@ -158,7 +158,7 @@ export default function SideNav() {
                             />
                         </ListItemButton>
                     </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/setting") }}>
+                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/follow") }}>
                         <ListItemButton sx={[{ minHeight: 48, px: 2.5, },
                         open
                             ? {
@@ -180,7 +180,7 @@ export default function SideNav() {
                                 <InboxIcon />
                             </ListItemIcon>
                             <ListItemText
-                                primary="Setting"
+                                primary="Follow"
                                 sx={[
                                     open
                                         ? {

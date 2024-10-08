@@ -2,9 +2,9 @@ import React from 'react';
 import SideNav from './component/SideNav';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
-import About from './pages/About';
-import Setting from './pages/Setting';
 import Login from './pages/Login';
+import Liked from './pages/Liked';
+import Follow from './pages/Follow';
 
 export default function App() {
     return (
@@ -13,8 +13,8 @@ export default function App() {
                 <Routes>
                     <Route path="/login" exact element={<Login />}></Route>
                     <Route path="/" exact element={<Home />}></Route>
-                    <Route path="/about" exact element={<About />}></Route>
-                    <Route path="/setting" exact element={<Setting />}></Route>
+                    <Route path="/liked" exact element={<Liked />}></Route>
+                    <Route path="/follow" exact element={<Follow />}></Route>
                 </Routes>
             </BrowserRouter>
         </>
