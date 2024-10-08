@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {}
+    "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {}
   },
   "projects": {
-    "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {
+    "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
+        "projectUniqueName": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
         "projectName": "Project.Server",
-        "projectPath": "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
-        "packagesPath": "C:\\Users\\bapti\\.nuget\\packages\\",
-        "outputPath": "C:\\Sources\\JobBoard\\Project\\Project.Server\\obj\\",
+        "projectPath": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
+        "packagesPath": "C:\\Users\\cleme\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\bapti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\cleme\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -74,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

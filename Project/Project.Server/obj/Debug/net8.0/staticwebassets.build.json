@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "+3oGIxrfCOSjfyB8dSE+bDvqoCMIBZ79rwraz0zAve0=",
+  "Hash": "EUHgwjOBfeh/P2sUFvcWJE/sPweCtHO2i7dMx7uSHy8=",
   "Source": "Project.Server",
   "BasePath": "_content/Project.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Sources\\JobBoard\\Project\\project.client\\project.client.esproj",
+      "Identity": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\project.client\\project.client.esproj",
       "Version": 2,
       "Source": "project.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
