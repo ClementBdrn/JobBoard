@@ -1,1 +1,2 @@
 C:\Users\cleme\source\repos\JobBoard\Project\project.client\obj\Debug\project.client.esproj.CoreCompileInputs.cache
+C:\Sources\JobBoard\Project\project.client\obj\Debug\project.client.esproj.CoreCompileInputs.cache
