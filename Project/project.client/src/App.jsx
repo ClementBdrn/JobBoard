@@ -2,6 +2,7 @@ import React from 'react';
 import SideNav from './component/SideNav';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
+import Login from './pages/Login';
 import Liked from './pages/Liked';
 import Follow from './pages/Follow';
 
@@ -10,6 +11,7 @@ export default function App() {
         <>
             <BrowserRouter>
                 <Routes>
+                    <Route path="/login" exact element={<Login />}></Route>
                     <Route path="/" exact element={<Home />}></Route>
                     <Route path="/liked" exact element={<Liked />}></Route>
                     <Route path="/follow" exact element={<Follow />}></Route>
