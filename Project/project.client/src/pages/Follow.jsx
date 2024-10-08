@@ -9,7 +9,7 @@ export default function Setting() {
             <Box sx={{ display: 'flex' }}>
                 <SideNav />
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                    <h1>Setting</h1>
+                    <h1>Suivez-nous</h1>
                 </Box>
             </Box>
         </>
