@@ -103,7 +103,7 @@ export default function SignUp() {
                     </Button>
                 </Box>
 
-                <Link href="#" variant="body2" color="primary" sx={{ marginTop: '1rem', display: 'block', textAlign: 'center' }}>
+                <Link href="signin" variant="body2" color="primary" sx={{ marginTop: '1rem', display: 'block', textAlign: 'center' }}>
                     D&#233;j&#224; un compte ? Connection
                 </Link>
             </Container>
