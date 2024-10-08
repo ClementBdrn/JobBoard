@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
 
-function LoginPage() {
+export default function Connection() {
     return (
         <Box
             sx={{
@@ -28,11 +28,11 @@ function LoginPage() {
                 </Typography>
 
                 <Typography variant="h5" align="left" gutterBottom>
-                    Inscription
+                    Connection
                 </Typography>
 
                 <Typography variant="body1" align="left" gutterBottom>
-                    Cr&#233;ez un compte ou connectez-vous.
+                    Connectez-vous &#224; l'aide de vos identifiants.
                 </Typography>
 
                 {/* Formulaire */}
@@ -70,23 +70,6 @@ function LoginPage() {
                             },
                         }}
                     />
-                    <TextField
-                        fullWidth
-                        label="Entrez &#224; nouveau votre mot de passe"
-                        variant="outlined"
-                        type="password"
-                        margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
-                        sx={{
-                            '& fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                            '& .Mui-focused fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                        }}
-                    />
                     <Button
                         fullWidth
                         variant="contained"
@@ -99,13 +82,9 @@ function LoginPage() {
                             },
                         }}
                     >
-                        Valider les informations
+                        Se connecter
                     </Button>
                 </Box>
-
-                <Link href="#" variant="body2" color="primary" sx={{ marginTop: '1rem', display: 'block', textAlign: 'center' }}>
-                    D&#233;j&#224; un compte ? Connection
-                </Link>
             </Container>
 
             {/* Footer */}
@@ -123,5 +102,3 @@ function LoginPage() {
         </Box>
     );
 }
-
-export default LoginPage;
