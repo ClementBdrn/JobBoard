@@ -23,7 +23,7 @@ const theme = createTheme({
 // Composant pour gérer l'affichage du SideNav
 const Layout = () => {
     const location = useLocation();
-    const isLoginPage = location.pathname === '/login' || location.pathname === '/connection'; // Vérifiez si l'utilisateur est sur la page de connexion
+    const isLoginPage = location.pathname === '/signup' || location.pathname === '/signin'; // Vérifiez si l'utilisateur est sur la page de connexion
 
     return (
         <>
