@@ -7,9 +7,8 @@ export default function Liked() {
     return (
         <>
             <Box sx={{ display: 'flex' }}>
-                <SideNav />
                 <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                <h1>Favoris</h1>
+                    <h1>Favoris</h1>
                 </Box>
             </Box>
         </>
