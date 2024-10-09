@@ -1,132 +1,113 @@
-import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const drawerWidth = 240;
+export default function SignUpForm() {
+    const navigate = useNavigate();
 
-const openedMixin = (theme) => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme) => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-});
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    })
-);
-
-export default function SideNav() {
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
-
-    const navLinks = [
-        { path: '/', label: 'Home' },
-        { path: '/signup', label: 'Signup' },
-        { path: '/signin', label: 'Signin' },
-        { path: '/liked', label: 'Liked' },
-        { path: '/follow', label: 'Follow' },
-    ];
+    const handleSubmit = () => {
+        // Redirection vers la page d'accueil
+        navigate('/');
+    };
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <Drawer variant="permanent" open={open} sx={{ '& .MuiDrawer-paper': { backgroundColor: 'black', color: 'white', }, }}>
-                <DrawerHeader>
-                    <IconButton onClick={() => setOpen(!open)} sx={{ backgroundColor: '#AC5FE9' }}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
-                <List>
-                    {navLinks.map((link) => (
-                        <ListItem key={link.path} disablePadding sx={{ display: 'block' }}>
-                            <NavLink
-                                to={link.path}
-                                style={({ isActive }) => ({
-                                    textDecoration: 'none',
-                                    color: isActive ? '#AC5FE9' : 'white',
-                                    width: '100%',
-                                })}
-                            >
-                                <ListItemButton
-                                    sx={{
-                                        minHeight: 48,
-                                        justifyContent: open ? 'initial' : 'center',
-                                        px: 2.5,
-                                        '&:hover': {
-                                            backgroundColor: '#AC5FE9',
-                                            color: 'white',
-                                        }
-                                    }}
-                                >
-                                    <ListItemIcon
-                                        sx={{
-                                            minWidth: 0,
-                                            mr: open ? 3 : 'auto',
-                                            justifyContent: 'center',
-                                            color: 'inherit',
-                                        }}
-                                    >
-                                        <InboxIcon />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={link.label}
-                                        sx={{ opacity: open ? 1 : 0 }}
-                                    />
-                                </ListItemButton>
-                            </NavLink>
-                        </ListItem>
-                    ))}
-                </List>
-            </Drawer>
-        </Box>
+        <Box
+            sx={{
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'black',
+            }}
+        >
+            <Container
+                maxWidth="xs"
+                sx={{
+                    border: '2px solid #9b59b6',
+                    borderRadius: '10px',
+                    padding: '2rem',
+                    backgroundColor: 'black',
+                    color: 'white',
+                }}
+            >
+                <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    SOS CH&#212;MAGE
+                </Typography>
+
+                <Typography variant="h5" align="left" gutterBottom>
+                    Connection
+                </Typography>
+
+                <Typography variant="body1" align="left" gutterBottom>
+                    Connectez-vous.
+                </Typography>
+
+                {/* Formulaire */}
+                <Box component="form" noValidate autoComplete="off">
+                    <TextField
+                        fullWidth
+                        label="Adresse E-mail"
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        sx={{
+                            '& fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                            '& .Mui-focused fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                        }}
+                    />
+                    <TextField
+                        fullWidth
+                        label="Mot de passe"
+                        variant="outlined"
+                        type="password"
+                        margin="normal"
+                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        sx={{
+                            '& fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                            '& .Mui-focused fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                        }}
+                    />
+                    < Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        sx={{
+                            backgroundColor: '#9b59b6',
+                            marginTop: '1rem',
+                            '&:hover': {
+                                backgroundColor: '#8e44ad',
+                            },
+                        }}
+                        onClick={handleSubmit}
+                    >
+                        Se connecter
+                    </Button >
+                </Box >
+            </Container >
+
+            {/* Footer */}
+            < Box
+                sx={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    left: '6%',
+                    transform: 'translateX(-50%)',
+                    color: 'white',
+                }}
+            >
+                <Typography variant="caption">  2024 Ch&#244;mage</Typography>
+            </Box >
+        </Box >
     );
 }
