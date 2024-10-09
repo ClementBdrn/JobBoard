@@ -13,7 +13,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import {useNavigate} from "react-router-dom"
+import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -43,226 +43,90 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme }) => ({
+    ({ theme, open }) => ({
         width: drawerWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
         boxSizing: 'border-box',
-        variants: [
-            {
-                props: ({ open }) => open,
-                style: {
-                    ...openedMixin(theme),
-                    '& .MuiDrawer-paper': openedMixin(theme),
-                },
-            },
-            {
-                props: ({ open }) => !open,
-                style: {
-                    ...closedMixin(theme),
-                    '& .MuiDrawer-paper': closedMixin(theme),
-                },
-            },
-        ],
-    }),
+        ...(open && {
+            ...openedMixin(theme),
+            '& .MuiDrawer-paper': openedMixin(theme),
+        }),
+        ...(!open && {
+            ...closedMixin(theme),
+            '& .MuiDrawer-paper': closedMixin(theme),
+        }),
+    })
 );
 
 export default function SideNav() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
-    const navigate = useNavigate();
+
+    const navLinks = [
+        { path: '/', label: 'Home' },
+        { path: '/signup', label: 'Signup' },
+        { path: '/signin', label: 'Signin' },
+        { path: '/liked', label: 'Liked' },
+        { path: '/follow', label: 'Follow' },
+    ];
 
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <Drawer variant="permanent" open={open}>
+            <Drawer variant="permanent" open={open} sx={{ '& .MuiDrawer-paper': { backgroundColor: 'black', borderRight: '2px solid #AC5FE9',},}}>
                 <DrawerHeader>
-                    <IconButton onClick={()=>setOpen(!open) }>
+                    <IconButton onClick={() => setOpen(!open)} sx={{ color: '#AC5FE9', backgroundColor: 'black' }}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/signup") }}>
-                        <ListItemButton sx={[{ minHeight: 48, px: 2.5, },
-                        open
-                            ? {
-                                justifyContent: 'initial',
-                            }
-                            : {
-                                justifyContent: 'center',
-                            },
-                        ]} >
-                            <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center', },
-                            open
-                                ? {
-                                    mr: 3,
-                                }
-                                : {
-                                    mr: 'auto',
-                                },
-                            ]} >
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="Signup"
-                                sx={[
-                                    open
-                                        ? {
-                                            opacity: 1,
-                                        }
-                                        : {
-                                            opacity: 0,
+                    {navLinks.map((link) => (
+                        <ListItem key={link.path} disablePadding sx={{ display: 'block' }}>
+                            <NavLink
+                                to={link.path}
+                                style={({ isActive }) => ({
+                                    textDecoration: 'none',
+                                    color: isActive ? 'white' : 'inherit', // Text color active link to white
+                                    width: '100%',
+                                })}
+                            >
+                                <ListItemButton
+                                    sx={{
+                                        minHeight: 48,
+                                        justifyContent: open ? 'initial' : 'center',
+                                        px: 2.5,
+                                        backgroundColor: (theme) => (link.path === window.location.pathname ? '#AC5FE9' : 'transparent'),
+                                        '&:hover': {
+                                            backgroundColor: '#AC5FE9', // Set hover background color
+                                            color: 'white', // Keep text color white on hover
                                         },
-                                ]}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/signin") }}>
-                        <ListItemButton sx={[{ minHeight: 48, px: 2.5, },
-                        open
-                            ? {
-                                justifyContent: 'initial',
-                            }
-                            : {
-                                justifyContent: 'center',
-                            },
-                        ]} >
-                            <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center', },
-                            open
-                                ? {
-                                    mr: 3,
-                                }
-                                : {
-                                    mr: 'auto',
-                                },
-                            ]} >
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="Signin"
-                                sx={[
-                                    open
-                                        ? {
-                                            opacity: 1,
-                                        }
-                                        : {
-                                            opacity: 0,
-                                        },
-                                ]}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => {navigate("/")} }>
-                        <ListItemButton sx={[{minHeight: 48,px: 2.5,},
-                                open
-                                    ? {
-                                        justifyContent: 'initial',
-                                    }
-                                    : {
-                                        justifyContent: 'center',
-                                    },
-                            ]} >
-                            <ListItemIcon sx={[{minWidth: 0, justifyContent: 'center',},
-                                    open
-                                        ? {
-                                            mr: 3,
-                                        }
-                                        : {
-                                            mr: 'auto',
-                                        },
-                                ]} >
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="Home"
-                                sx={[
-                                    open
-                                        ? {
-                                            opacity: 1,
-                                        }
-                                        : {
-                                            opacity: 0,
-                                        },
-                                ]}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/liked") }}>
-                        <ListItemButton sx={[{ minHeight: 48, px: 2.5, },
-                        open
-                            ? {
-                                justifyContent: 'initial',
-                            }
-                            : {
-                                justifyContent: 'center',
-                            },
-                        ]} >
-                            <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center', },
-                            open
-                                ? {
-                                    mr: 3,
-                                }
-                                : {
-                                    mr: 'auto',
-                                },
-                            ]} >
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="Liked"
-                                sx={[
-                                    open
-                                        ? {
-                                            opacity: 1,
-                                        }
-                                        : {
-                                            opacity: 0,
-                                        },
-                                ]}
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding sx={{ display: 'block' }} onClick={() => { navigate("/follow") }}>
-                        <ListItemButton sx={[{ minHeight: 48, px: 2.5, },
-                        open
-                            ? {
-                                justifyContent: 'initial',
-                            }
-                            : {
-                                justifyContent: 'center',
-                            },
-                        ]} >
-                            <ListItemIcon sx={[{ minWidth: 0, justifyContent: 'center', },
-                            open
-                                ? {
-                                    mr: 3,
-                                }
-                                : {
-                                    mr: 'auto',
-                                },
-                            ]} >
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary="Follow"
-                                sx={[
-                                    open
-                                        ? {
-                                            opacity: 1,
-                                        }
-                                        : {
-                                            opacity: 0,
-                                        },
-                                ]}
-                            />
-                        </ListItemButton>
-                    </ListItem>
+                                        color: (theme) => (link.path === window.location.pathname ? 'white' : 'inherit'), // Text color for active link
+                                    }}
+                                >
+                                    <ListItemIcon
+                                        sx={{
+                                            minWidth: 0,
+                                            mr: open ? 3 : 'auto',
+                                            justifyContent: 'center',
+                                            color: 'inherit', // Keep icon color consistent with text
+                                        }}
+                                    >
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={link.label}
+                                        sx={[open ? { opacity: 1, color: 'white' } : { opacity: 0, color: 'white' },]}
+                                    />
+                                </ListItemButton>
+                            </NavLink>
+                        </ListItem>
+                    ))}
                 </List>
             </Drawer>
         </Box>
