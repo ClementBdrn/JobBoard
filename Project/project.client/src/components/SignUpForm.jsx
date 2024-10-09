@@ -1,13 +1,97 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignUpForm() {
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
-        // Redirection vers la page d'accueil
-        navigate('/');
+    //Nom Complet
+    const [name, setName] = useState("");
+
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+    }
+
+    //Username
+    const [username, setUsername] = useState("");
+
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
+    }
+
+    const [birthDate, setBirthDate] = useState("");
+
+    const handleBirthDateChange = (e) => {
+        setBirthDate(e.target.value);
+    }
+
+    //Phone
+    const [phone, setPhone] = useState("");
+
+    const handlePhoneChange = (e) => {
+        setPhone(e.target.value);
+    }
+
+    //Email
+    const [email, setEmail] = useState("");
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    }
+
+    //Password 1
+    const [password1, setPassword1] = useState("");
+
+    const handlePassword1Change = (e) => {
+        setPassword1(e.target.value);
+    }
+
+    //Password 2
+    const [password2, setPassword2] = useState("");
+
+    const handlePassword2Change = (e) => {
+        setPassword2(e.target.value);
+    }
+        
+
+    // Envoi les values au back
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        let isValidate = true;
+        if (name.length == 0 || username.length == 0 || birthDate.length == 0 || phone.length == 0 || email.length == 0 || password1.length == 0 || password2.length == 0) {
+            toast.error("Tous les champs doivent \u00eatre renseign\u00e9s.");
+            isValidate = false
+        }
+
+        if (isValidate) {
+            try {
+                const response = await fetch("https://localhost:7007/api/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ name, username, birthDate, phone, email, password1, password2 }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Données reçues du backend :", data);
+
+                    // Redirection vers la page d'accueil
+                    navigate('/');
+                } else {
+                    const errorData = await response.json();
+
+                    errorData.errors.forEach((errorMessage) => {
+                        toast.error(errorMessage);
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur réseau :", error);
+            }
+        }
     };
 
     return (
@@ -60,6 +144,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={name}
+                        onChange={handleNameChange}
                     />
                     <TextField
                         fullWidth
@@ -76,6 +162,27 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={username}
+                        onChange={handleUsernameChange}
+                    />
+                    <TextField
+                        fullWidth
+                        label="Date de naissance"
+                        variant="outlined"
+                        type="date"
+                        margin="normal"
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
+                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        sx={{
+                            '& fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                            '& .Mui-focused fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                        }}
+                        value={birthDate}
+                        onChange={handleBirthDateChange}
                     />
                     <TextField
                         fullWidth
@@ -92,6 +199,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={phone}
+                        onChange={handlePhoneChange}
                     />
                     <TextField
                         fullWidth
@@ -108,6 +217,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={email}
+                        onChange={handleEmailChange}
                     />
                     <TextField
                         fullWidth
@@ -125,6 +236,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={password1}
+                        onChange={handlePassword1Change}
                     />
                     <TextField
                         fullWidth
@@ -142,6 +255,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                                                     },
                         }}
+                        value={password2}
+                        onChange={handlePassword2Change}
                         />
                         < Button
                             fullWidth
@@ -158,7 +273,8 @@ export default function SignUpForm() {
                                 >
                                 Se connecter
                         </Button >
-                    </Box >
+                </Box >
+                <ToastContainer />
                 </Container >
 
                 {/* Footer */ }
@@ -175,4 +291,5 @@ export default function SignUpForm() {
             </Box >
         </Box >
     );
+
 }
