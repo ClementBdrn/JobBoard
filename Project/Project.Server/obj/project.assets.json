@@ -4499,26 +4499,27 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Microsoft.AspNetCore.SpaProxy >= 8.*-*",
+      "Microsoft.AspNetCore.SpaProxy >= 8.0.10",
+      "Microsoft.EntityFrameworkCore >= 8.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 8.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.10",
       "Swashbuckle.AspNetCore >= 6.8.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\bapti\\.nuget\\packages\\": {}
+    "C:\\Users\\cleme\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
+      "projectUniqueName": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
       "projectName": "Project.Server",
-      "projectPath": "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
-      "packagesPath": "C:\\Users\\bapti\\.nuget\\packages\\",
-      "outputPath": "C:\\Sources\\JobBoard\\Project\\Project.Server\\obj\\",
+      "projectPath": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
+      "packagesPath": "C:\\Users\\cleme\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\bapti\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\cleme\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -4552,7 +4553,11 @@
         "dependencies": {
           "Microsoft.AspNetCore.SpaProxy": {
             "target": "Package",
-            "version": "[8.*-*, )"
+            "version": "[8.0.10, )"
+          },
+          "Microsoft.EntityFrameworkCore": {
+            "target": "Package",
+            "version": "[8.0.10, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
@@ -4588,7 +4593,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
