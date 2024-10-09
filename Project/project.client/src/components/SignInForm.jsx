@@ -6,9 +6,12 @@ export default function SignUpForm() {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
-        // Redirection vers la page d'accueil
         navigate('/');
     };
+
+    const handleSignUp = () => {
+        navigate('/signup');
+    }
 
     return (
         <Box
@@ -78,6 +81,9 @@ export default function SignUpForm() {
                             },
                         }}
                     />
+                    <Typography sx={{ color: '#9b59b6', cursor: 'pointer' }} gutterBottom onClick={handleSignUp}>
+                        Vous n'avez pas de compte ? Inscription.
+                    </Typography>
                     < Button
                         fullWidth
                         variant="contained"
@@ -106,7 +112,7 @@ export default function SignUpForm() {
                     color: 'white',
                 }}
             >
-                <Typography variant="caption">  2024 Ch&#244;mage</Typography>
+                <Typography variant="caption">&#169; 2024 Ch&#244;mage</Typography>
             </Box >
         </Box >
     );

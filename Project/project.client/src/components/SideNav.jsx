@@ -70,8 +70,6 @@ export default function SideNav() {
 
     const navLinks = [
         { path: '/', label: 'Home' },
-        { path: '/signup', label: 'Signup' },
-        { path: '/signin', label: 'Signin' },
         { path: '/liked', label: 'Liked' },
         { path: '/apply', label: 'Apply' },
     ];
@@ -81,8 +79,8 @@ export default function SideNav() {
             <CssBaseline />
             <Drawer variant="permanent" open={open} sx={{ '& .MuiDrawer-paper': { backgroundColor: 'black', borderRight: '2px solid #AC5FE9',},}}>
                 <DrawerHeader>
-                    <Typography variant="h4" fontWeight="bold" sx={{ color: 'white' }}>
-                        HOME
+                    <Typography variant="h6" fontWeight="bold" sx={{ color: 'white', left: '-25px', position: 'relative' }}>
+                        SOS CH&#212;MAGE
                     </Typography>
                     <IconButton onClick={() => setOpen(!open)} sx={{ color: '#AC5FE9', backgroundColor: 'black' }}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
