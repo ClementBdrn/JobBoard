@@ -6,16 +6,17 @@ import { Box } from '@mui/material';
 import Home from './pages/Home';
 import Signup from './pages/SignUp';
 import Signin from './pages/SignIn';
-import Follow from './pages/Follow';
+import Follow from './pages/Apply';
 import Liked from './pages/Liked';
+import Apply from './pages/Apply';
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#9b59b6', // Couleur principale violette
+            main: '#9b59b6',
         },
         background: {
-            default: '#000000', // Fond noir
+            default: '#000000',
         },
     },
 });
@@ -37,7 +38,7 @@ const Layout = () => {
                     <Route path="/signin" element={<Signin />} />
                     <Route path="/" element={<Home />} />
                     <Route path="/liked" element={<Liked />} />
-                    <Route path="/follow" element={<Follow />} />
+                    <Route path="/apply" element={<Apply />} />
                 </Routes>
             </Box>
         </Box>

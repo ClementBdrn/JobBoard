@@ -14,6 +14,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { NavLink } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 const drawerWidth = 240;
 
@@ -72,7 +73,7 @@ export default function SideNav() {
         { path: '/signup', label: 'Signup' },
         { path: '/signin', label: 'Signin' },
         { path: '/liked', label: 'Liked' },
-        { path: '/follow', label: 'Follow' },
+        { path: '/apply', label: 'Apply' },
     ];
 
     return (
@@ -80,6 +81,9 @@ export default function SideNav() {
             <CssBaseline />
             <Drawer variant="permanent" open={open} sx={{ '& .MuiDrawer-paper': { backgroundColor: 'black', borderRight: '2px solid #AC5FE9',},}}>
                 <DrawerHeader>
+                    <Typography variant="h4" fontWeight="bold" sx={{ color: 'white' }}>
+                        HOME
+                    </Typography>
                     <IconButton onClick={() => setOpen(!open)} sx={{ color: '#AC5FE9', backgroundColor: 'black' }}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                     </IconButton>
@@ -92,7 +96,7 @@ export default function SideNav() {
                                 to={link.path}
                                 style={({ isActive }) => ({
                                     textDecoration: 'none',
-                                    color: isActive ? 'white' : 'inherit', // Text color active link to white
+                                    color: isActive ? 'white' : 'inherit',
                                     width: '100%',
                                 })}
                             >
@@ -103,10 +107,10 @@ export default function SideNav() {
                                         px: 2.5,
                                         backgroundColor: (theme) => (link.path === window.location.pathname ? '#AC5FE9' : 'transparent'),
                                         '&:hover': {
-                                            backgroundColor: '#AC5FE9', // Set hover background color
-                                            color: 'white', // Keep text color white on hover
+                                            backgroundColor: '#AC5FE9',
+                                            color: 'white',
                                         },
-                                        color: (theme) => (link.path === window.location.pathname ? 'white' : 'inherit'), // Text color for active link
+                                        color: (theme) => (link.path === window.location.pathname ? 'white' : 'inherit'),
                                     }}
                                 >
                                     <ListItemIcon
@@ -114,7 +118,7 @@ export default function SideNav() {
                                             minWidth: 0,
                                             mr: open ? 3 : 'auto',
                                             justifyContent: 'center',
-                                            color: 'inherit', // Keep icon color consistent with text
+                                            color: 'inherit',
                                         }}
                                     >
                                         <InboxIcon />
