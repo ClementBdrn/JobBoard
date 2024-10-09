@@ -1,51 +1,56 @@
 import React from 'react';
-import SideNav from './component/SideNav';
+import SideNav from './components/SideNav';
 import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Box } from '@mui/material';
 import Home from './pages/Home';
 import Signup from './pages/SignUp';
-import Liked from './pages/Liked';
-import Follow from './pages/Follow';
 import Signin from './pages/SignIn';
+import Follow from './pages/Follow';
+import Liked from './pages/Liked';
 
-// Définir le thème MUI
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#9b59b6',
+            main: '#9b59b6', // Couleur principale violette
         },
         background: {
-            default: '#000000',
+            default: '#000000', // Fond noir
         },
     },
 });
 
-// Composant pour gérer l'affichage du SideNav
 const Layout = () => {
     const location = useLocation();
-    const isLoginPage = location.pathname === '/signup' || location.pathname === '/signin'; // Vérifiez si l'utilisateur est sur la page de connexion
+    const isLoginPage = location.pathname === '/signup' || location.pathname === '/signin';
 
     return (
-        <>
-            {!isLoginPage && <SideNav />} {/* N'affichez SideNav que si ce n'est pas la page de connexion */}
-            <Routes>
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/signin" element={<Signin />} />
-                <Route path="/" element={<Home />} />
-                <Route path="/liked" element={<Liked />} />
-                <Route path="/follow" element={<Follow />} />
-            </Routes>
-        </>
+        <Box sx={{ display: 'flex', height: '100vh' }}>
+            {!isLoginPage && (
+                <Box>
+                    <SideNav />
+                </Box>
+            )}
+            <Box component="main" sx={{ flexGrow: 1 }}>
+                <Routes>
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/signin" element={<Signin />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/liked" element={<Liked />} />
+                    <Route path="/follow" element={<Follow />} />
+                </Routes>
+            </Box>
+        </Box>
     );
 };
 
 // Composant principal de l'application
 export default function App() {
     return (
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-                <Layout /> {/* Utiliser le composant Layout */}
-            </ThemeProvider>
-        </BrowserRouter>
+        <ThemeProvider theme={theme}>
+            <BrowserRouter>
+                <Layout />
+            </BrowserRouter>
+        </ThemeProvider>
     );
 }
