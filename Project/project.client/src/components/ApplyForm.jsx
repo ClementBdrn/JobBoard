@@ -1,82 +1,47 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
+import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
-export default function SignUpForm() {
+export default function ApplyForm() {
     const navigate = useNavigate();
 
-    //Nom Complet
+    // &#233;tat pour les informations de formulaire
+    const [firstname, setFirstname] = useState("");
     const [name, setName] = useState("");
-
-    const handleNameChange = (e) => {
-        setName(e.target.value);
-    }
-
-    //Username
-    const [username, setUsername] = useState("");
-
-    const handleUsernameChange = (e) => {
-        setUsername(e.target.value);
-    }
-
-    const [birthDate, setBirthDate] = useState("");
-
-    const handleBirthDateChange = (e) => {
-        setBirthDate(e.target.value);
-    }
-
-    //Phone
     const [phone, setPhone] = useState("");
-
-    const handlePhoneChange = (e) => {
-        setPhone(e.target.value);
-    }
-
-    //Email
     const [email, setEmail] = useState("");
+    const [selectedFile, setSelectedFile] = useState('');
+    const [address, setAddress] = useState('');
 
-    const handleEmailChange = (e) => {
-        setEmail(e.target.value);
-    }
-
-    //Password 1
-    const [password1, setPassword1] = useState("");
-
-    const handlePassword1Change = (e) => {
-        setPassword1(e.target.value);
-    }
-
-    //Password 2
-    const [password2, setPassword2] = useState("");
-
-    const handlePassword2Change = (e) => {
-        setPassword2(e.target.value);
-    }
-        
-
-    // Envoi les values au back
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let isValidate = true;
-        if (name.length == 0 || username.length == 0 || birthDate.length == 0 || phone.length == 0 || email.length == 0 || password1.length == 0 || password2.length == 0) {
+
+        if (selectedFile.length == 0) {
+            toast.error("Veuiller choisir un fichier.");
+            isValidate = false
+        }
+
+        if (firstname.length == 0 || name.length == 0 || phone.length == 0 || email.length == 0 || address.length == 0) {
             toast.error("Tous les champs doivent \u00eatre renseign\u00e9s.");
             isValidate = false
         }
 
         if (isValidate) {
             try {
-                const response = await fetch("https://localhost:7007/api/signup", {
+                const response = await fetch("https://localhost:7007/api/applyForm", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ name, username, birthDate, phone, email, password1, password2 }),
+                    body: JSON.stringify({ firstname, name, phone, email, address, selectedFile }),
                 });
                 if (response.ok) {
-                    // Redirection vers la page d'accueil
+                    const data = await response.json();
+                    console.log("Données reçues du backend :", data);
+
                     navigate('/');
                 }
                 else {
@@ -92,10 +57,20 @@ export default function SignUpForm() {
         }
     };
 
+    // Gestion des changements dans l'input fichier
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedFile(file.name);
+        } else {
+            setSelectedFile('');
+        }
+    };
+
     return (
         <Box
             sx={{
-                width: '100vw',
+                width: '83vw',
                 height: '100vh',
                 display: 'flex',
                 justifyContent: 'center',
@@ -118,18 +93,36 @@ export default function SignUpForm() {
                 </Typography>
 
                 <Typography variant="h5" align="left" gutterBottom>
-                    Inscription
+                    Candidatez
                 </Typography>
 
                 <Typography variant="body1" align="left" gutterBottom>
-                    Cr&#233;ez un compte ou connectez-vous.
+                    Pour l'offre d'emploi: METTRE OFFRE
                 </Typography>
 
                 {/* Formulaire */}
                 <Box component="form" noValidate autoComplete="off">
                     <TextField
                         fullWidth
-                        label="Nom Complet"
+                        label="Pr&#233;nom"
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        sx={{
+                            '& fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                            '& .Mui-focused fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                        }}
+                        value={firstname}
+                        onChange={(e) => setFirstname(e.target.value)}
+                    />
+                    <TextField
+                        fullWidth
+                        label="Nom"
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
@@ -143,62 +136,7 @@ export default function SignUpForm() {
                             },
                         }}
                         value={name}
-                        onChange={handleNameChange}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Pseudo"
-                        variant="outlined"
-                        margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
-                        sx={{
-                            '& fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                            '& .Mui-focused fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                        }}
-                        value={username}
-                        onChange={handleUsernameChange}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Date de naissance"
-                        variant="outlined"
-                        type="date"
-                        margin="normal"
-                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
-                        sx={{
-                            '& fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                            '& .Mui-focused fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                        }}
-                        value={birthDate}
-                        onChange={handleBirthDateChange}
-                    />
-                    <TextField
-                        fullWidth
-                        label="T&#233;l&#233;phone"
-                        variant="outlined"
-                        margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
-                        sx={{
-                            '& fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                            '& .Mui-focused fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                        }}
-                        value={phone}
-                        onChange={handlePhoneChange}
+                        onChange={(e) => setName(e.target.value)}
                     />
                     <TextField
                         fullWidth
@@ -216,13 +154,12 @@ export default function SignUpForm() {
                             },
                         }}
                         value={email}
-                        onChange={handleEmailChange}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <TextField
                         fullWidth
-                        label="Mot de passe"
+                        label="Ville, r&#233;gion"
                         variant="outlined"
-                        type="password"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
@@ -234,60 +171,54 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
-                        value={password1}
-                        onChange={handlePassword1Change}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                     <TextField
                         fullWidth
-                        label="Confirmez votre mot de passe"
+                        label="T&#233;l&#233;phone"
                         variant="outlined"
-                        type = "password"
-                        margin = "normal"
-                        InputLabelProps = {{ style: { color: 'white' } }}
-                        InputProps = {{ style: { borderColor: '#9b59b6', color: 'white' } }}
-                        sx = {{
+                        margin="normal"
+                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        sx={{
                             '& fieldset': {
                                 borderColor: '#9b59b6',
-                                                    },
+                            },
                             '& .Mui-focused fieldset': {
                                 borderColor: '#9b59b6',
-                                                    },
+                            },
                         }}
-                        value={password2}
-                        onChange={handlePassword2Change}
-                        />
-                        < Button
-                            fullWidth
-                            variant = "contained"
-                            color = "primary"
-                            sx = {{
-                                backgroundColor: '#9b59b6',
-                                    marginTop: '1rem',
-                                        '&:hover': {
-                                    backgroundColor: '#8e44ad',
-                                                        },
-                            }}
-                            onClick = { handleSubmit }
-                                >
-                                Se connecter
-                        </Button >
-                </Box >
-                <ToastContainer />
-                </Container >
-
-                {/* Footer */ }
-                < Box
-                    sx = {{
-                        position: 'absolute',
-                            bottom: '10px',
-                                left: '6%',
-                                    transform: 'translateX(-50%)',
-                                        color: 'white',
-                                    }}
-                            >
-                <Typography variant="caption">  2024 Ch&#244;mage</Typography>
-            </Box >
-        </Box >
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
+                            Choisir un fichier
+                            <input type="file" hidden onChange={handleFileChange} />
+                        </Button>
+                        <Typography variant="body2" align="left" gutterBottom>
+                            { selectedFile }
+                        </Typography>
+                    </Box>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        disabled={!selectedFile}
+                        sx={{
+                            backgroundColor: '#9b59b6',
+                            marginTop: '1rem',
+                            '&:hover': {
+                                backgroundColor: '#8e44ad',
+                            },
+                        }}
+                        onClick={handleSubmit}
+                    >
+                        Soumettre
+                    </Button>
+                </Box>
+            </Container>
+        </Box>
     );
-
 }

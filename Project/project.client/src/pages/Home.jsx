@@ -4,8 +4,17 @@ import { Search, Person } from '@mui/icons-material';
 import SearchBar from '../components/SearchBar';
 import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+
+    const navigate = useNavigate();
+
+    const handleSubmit = () => {
+        // Redirection vers la page d'accueil
+        navigate('/signin');
+    };
+
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '83vw', height: '100vh', backgroundColor: 'black', color: 'white', padding: '20px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
@@ -16,7 +25,7 @@ export default function Home() {
                 {/* Barre de recherche */}
                 <SearchBar />
 
-                <Person sx={{ color: '#AC5FE9', marginLeft: 2 }} />
+                <Person sx={{ color: '#AC5FE9', marginLeft: 2 }} onClick={handleSubmit} />
             </Box>
 
             {/* Corps de la page */}
@@ -30,3 +39,4 @@ export default function Home() {
         </Box>
     );
 }
+
