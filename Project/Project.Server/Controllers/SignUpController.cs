@@ -77,35 +77,66 @@ namespace Project.Server.Controllers
             if (isValidate)
             {
                 // BDD
-                var newPerson = new PeopleModel
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Email = email,
-                    Phone = phone,
-                    BirthDate = birthDate,
-                    IsEmployed = false,
-                    IdCompanies = null
-                };
+                    try
+                    {
+                        var sqlPeople = "INSERT INTO People (firstName, lastName, email, phone, birthDate, isEmployed, idCompanies) " +
+                        "VALUES (@firstName, @lastName, @email, @phone, @birthDate, 0, null);";
 
-                _context.People.Add(newPerson);
-                await _context.SaveChangesAsync();
-                int newPersonId = newPerson.Id;
+                        // Paramètres SQL
+                        var parametersPeople = new[]
+                        {
+                            new SqlParameter("@firstName", firstName),
+                            new SqlParameter("@lastName", lastName),
+                            new SqlParameter("@phone", phone),
+                            new SqlParameter("@email", email),
+                            new SqlParameter("@BirthDate", birthDate)
+                        };
 
-                // Paramètres SQL
-                var credentials = new CredentialsModel
+                        await _context.Database.ExecuteSqlRawAsync(sqlPeople, parametersPeople);
+                        await transaction.CommitAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        return StatusCode(500, new { error = ex.Message });
+                    }
+                }
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
                 {
-                    Username = username,
-                    Password = HashPassword(password1),
-                    IdPeople = newPersonId,
-                    DateModif = DateTime.Now
-                };
+                    try
+                    {
+                        var sqlGetLastId = "SELECT TOP 1 id FROM People ORDER BY id DESC";
+                        var idPeople = await _context.People
+                            .FromSqlRaw(sqlGetLastId)
+                            .Select(p => p.Id)
+                            .FirstOrDefaultAsync();
 
-                _context.Credentials.Add(credentials);
-                await _context.SaveChangesAsync();
+                        var sqlCredentials = "INSERT INTO Credentials (username, password, idPeople, dateModif) VALUES (@username, @password, @idPeople, @dateModif)";
 
-                // Réponse au frontend
-                return Ok(new { newPersonId });
+                        // Paramètres SQL
+                        var parametersCredentials = new[]
+                        {
+                            new SqlParameter("@username", username),
+                            new SqlParameter("@password", HashPassword(password1)),
+                            new SqlParameter("@idPeople", idPeople),
+                            new SqlParameter("@dateModif", DateTime.Now)
+                        };
+
+                        await _context.Database.ExecuteSqlRawAsync(sqlCredentials, parametersCredentials);
+                        await transaction.CommitAsync();
+
+                        // Réponse au frontend
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        return StatusCode(500, new { error = ex.Message });
+                    }
+                }
             }
             else
             {

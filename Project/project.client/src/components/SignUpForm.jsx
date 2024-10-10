@@ -76,9 +76,6 @@ export default function SignUpForm() {
                     body: JSON.stringify({ name, username, birthDate, phone, email, password1, password2 }),
                 });
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log("Données reçues du backend :", data);
-
                     // Redirection vers la page d'accueil
                     navigate('/');
                 }
