@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function ApplyForm() {
     const navigate = useNavigate();
-
-    const handleSubmit = () => {
-        // Redirection vers la page d'accueil
-        navigate('/');
-    };
 
     // &#233;tat pour les informations de formulaire
     const [firstname, setFirstname] = useState("");
@@ -16,12 +12,56 @@ export default function ApplyForm() {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [selectedFile, setSelectedFile] = useState('');
+    const [address, setAddress] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        let isValidate = true;
+
+        if (selectedFile.length == 0) {
+            toast.error("Veuiller choisir un fichier.");
+            isValidate = false
+        }
+
+        if (firstname.length == 0 || name.length == 0 || phone.length == 0 || email.length == 0 || address.length == 0) {
+            toast.error("Tous les champs doivent \u00eatre renseign\u00e9s.");
+            isValidate = false
+        }
+
+        if (isValidate) {
+            try {
+                const response = await fetch("https://localhost:7007/api/applyForm", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ firstname, name, phone, email, address, selectedFile }),
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Données reçues du backend :", data);
+
+                    navigate('/');
+                }
+                else {
+                    const errorData = await response.json();
+
+                    errorData.errors.forEach((errorMessage) => {
+                        toast.error(errorMessage);
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur réseau :", error);
+            }
+        }
+    };
 
     // Gestion des changements dans l'input fichier
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setSelectedFile(file.name);  // On met à jour avec le nom du fichier s&#233;lectionn&#233;
+            setSelectedFile(file.name);
         } else {
             setSelectedFile('');
         }
@@ -118,6 +158,24 @@ export default function ApplyForm() {
                     />
                     <TextField
                         fullWidth
+                        label="Ville, r&#233;gion"
+                        variant="outlined"
+                        margin="normal"
+                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        sx={{
+                            '& fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                            '& .Mui-focused fieldset': {
+                                borderColor: '#9b59b6',
+                            },
+                        }}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                    />
+                    <TextField
+                        fullWidth
                         label="T&#233;l&#233;phone"
                         variant="outlined"
                         margin="normal"
@@ -134,23 +192,14 @@ export default function ApplyForm() {
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                     />
-                    <Box>
-                        <TextField
-                            fullWidth
-                            label="Fichier s&#233;lectionn&#233;"
-                            value={selectedFile}
-                            variant="outlined"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            sx={{ marginBottom: 2 }}
-                        />
-
-                        {/* Bouton pour s&#233;lectionner un fichier */}
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
                             Choisir un fichier
                             <input type="file" hidden onChange={handleFileChange} />
                         </Button>
+                        <Typography variant="body2" align="left" gutterBottom>
+                            { selectedFile }
+                        </Typography>
                     </Box>
                     <Button
                         fullWidth
@@ -164,6 +213,7 @@ export default function ApplyForm() {
                                 backgroundColor: '#8e44ad',
                             },
                         }}
+                        onClick={handleSubmit}
                     >
                         Soumettre
                     </Button>

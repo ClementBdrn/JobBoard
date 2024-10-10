@@ -81,7 +81,8 @@ export default function SignUpForm() {
 
                     // Redirection vers la page d'accueil
                     navigate('/');
-                } else {
+                }
+                else {
                     const errorData = await response.json();
 
                     errorData.errors.forEach((errorMessage) => {

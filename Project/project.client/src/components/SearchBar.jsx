@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { Search, Person } from '@mui/icons-material';
 
 export default function SearchBar() {
+
+    const [search, setSearch] = useState('');
+
+    const submitSearch = () => {
+        // faire envoi de données
+    }
+
     return (
         <Box sx={{ margin: 'auto', width: '60%' }}>
             <Box
@@ -38,6 +45,8 @@ export default function SearchBar() {
                             },
                         },
                     }}
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
                 />
                 <Button
                     variant="contained"
@@ -48,6 +57,7 @@ export default function SearchBar() {
                         position: 'relative',
                         left: '7px'
                     }}
+                    onClick={submitSearch}
                 >
                     Rechercher
                 </Button>
