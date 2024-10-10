@@ -41,7 +41,18 @@ export default function JobDetails() {
                 <Typography variant="h5" fontWeight="bold">
                     Nettoyeur de voiture (H/F)
                 </Typography>
-                <IconButton onClick={handleHeartClick} sx={{ padding: 0 }}>
+                    <IconButton onClick={() => handleHeartClick()} sx={{
+                    padding: 0,
+                    '&:focus': {
+                        outline: 'none',
+                    },
+                    '&:active': {
+                        outline: 'none',
+                    },
+                    '& .MuiTouchRipple-root': {
+                        display: 'none',
+                    },
+                }} disableRipple disableFocusRipple>
                     {liked ? (
                         <Favorite sx={{ color: 'red' }} />
                     ) : (

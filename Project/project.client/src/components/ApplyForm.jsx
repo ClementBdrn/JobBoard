@@ -195,7 +195,7 @@ export default function ApplyForm() {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
                             Choisir un fichier
-                            <input type="file" hidden onChange={handleFileChange} />
+                            <input type="file" hidden onChange={handleFileChange} accept="application/pdf" />
                         </Button>
                         <Typography variant="body2" align="left" gutterBottom>
                             { selectedFile }

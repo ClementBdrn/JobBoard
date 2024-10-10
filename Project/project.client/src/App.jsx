@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Signup from './pages/SignUp';
 import Signin from './pages/SignIn';
 import Follow from './pages/Apply';
-import Liked from './pages/Liked';
+import Favorite from './pages/Favorites';
 import Apply from './pages/Apply';
 
 const theme = createTheme({
@@ -37,7 +37,7 @@ const Layout = () => {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/signin" element={<Signin />} />
                     <Route path="/" element={<Home />} />
-                    <Route path="/liked" element={<Liked />} />
+                    <Route path="/favorite" element={<Favorite />} />
                     <Route path="/apply" element={<Apply />} />
                 </Routes>
             </Box>

@@ -13,4 +13,13 @@ namespace Project.Server.Data
         public DbSet<CredentialsModel> Credentials { get; set; }
         public DbSet<PeopleModel> People { get; set; }
     }
+    public class AdvertisementContext : DbContext
+    {
+        public AdvertisementContext(DbContextOptions<AdvertisementContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<AdvertisementsModel> Advertisements { get; set; }
+    }
 }

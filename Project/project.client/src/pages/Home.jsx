@@ -25,7 +25,7 @@ export default function Home() {
                 {/* Barre de recherche */}
                 <SearchBar />
 
-                <Person sx={{ color: '#AC5FE9', marginLeft: 2 }} onClick={handleSubmit} />
+                <Person sx={{ color: '#AC5FE9', marginLeft: 2, cursor: 'pointer' }} onClick={handleSubmit} />
             </Box>
 
             {/* Corps de la page */}

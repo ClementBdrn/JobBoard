@@ -70,7 +70,7 @@ export default function SideNav() {
 
     const navLinks = [
         { path: '/', label: 'Home' },
-        { path: '/liked', label: 'Liked' },
+        { path: '/favorite', label: 'Favorite' },
         { path: '/apply', label: 'Apply' },
     ];
 
