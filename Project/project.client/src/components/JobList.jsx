@@ -19,7 +19,7 @@ export default function JobList() {
     useEffect(() => {
         const fetchAdvertisements = async () => {
             try {
-                const response = await fetch('https://localhost:7007/api/advertisements');
+                const response = await fetch('/api/advertisements');
                 const data = await response.json();
                 setAdvertisements(data);
                 setLikedItems(Array(data.length).fill(false));
@@ -63,7 +63,7 @@ export default function JobList() {
                 {advertisements.length > 0 ? (
                     advertisements.map((ad, index) => (
                         <Card
-                            key={ad.id} // Utilisez un identifiant unique
+                            key={ad.Id} // Utilisez l'identifiant unique
                             sx={{
                                 backgroundColor: 'black',
                                 border: '1px solid #AC5FE9',
@@ -75,7 +75,7 @@ export default function JobList() {
                                 <CardContent>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
-                                            {ad.title} {/* Récupérer dynamiquement le titre */}
+                                            {ad.Name} {/* Récupérer dynamiquement le nom */}
                                         </Typography>
 
                                         {/* Bouton cœur */}
@@ -104,13 +104,13 @@ export default function JobList() {
                                         </IconButton>
                                     </Box>
                                     <Typography variant="body2" color="gray">
-                                        {ad.company} ({ad.location}) {/* Récupérer dynamiquement l'entreprise et l'emplacement */}
+                                        {ad.Place} {/* Récupérer dynamiquement le lieu */}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        {ad.description} {/* Récupérer dynamiquement la description */}
+                                        {ad.Description} {/* Récupérer dynamiquement la description */}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        Posté il y a {ad.postedDate} jours {/* Récupérer dynamiquement la date de publication */}
+                                        Posté le {new Date(ad.DatePost).toLocaleDateString()} {/* Formatage de la date de publication */}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
