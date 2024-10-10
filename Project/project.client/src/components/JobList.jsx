@@ -1,8 +1,17 @@
-import React from 'react';
-import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea, IconButton } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { Search, Person } from '@mui/icons-material';
+import { Search, Person, Favorite, FavoriteBorder } from '@mui/icons-material';
 export default function JobList() {
+
+    const [likedItems, setLikedItems] = useState(Array(15).fill(false));
+
+    const handleHeartClick = (index) => {
+        const updatedLikes = [...likedItems];
+        updatedLikes[index] = !updatedLikes[index];
+        setLikedItems(updatedLikes);
+    };
+
     return (
         <Grid
             item
@@ -43,9 +52,20 @@ export default function JobList() {
                     >
                         <CardActionArea>
                             <CardContent>
-                                <Typography variant="h6" fontWeight="bold" color="white">
-                                    Nettoyeur de voiture (H/F)
-                                </Typography>
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
+                                        Nettoyeur de voiture (H/F)
+                                    </Typography>
+
+                                    {/* Bouton cœur */}
+                                    <IconButton onClick={() => handleHeartClick(index)} sx={{ padding: 0 }}>
+                                        {likedItems[index] ? (
+                                            <Favorite sx={{ color: 'red' }} />
+                                        ) : (
+                                            <FavoriteBorder sx={{ color: '#9b59b6' }} />
+                                        )}
+                                    </IconButton>
+                                </Box>
                                 <Typography variant="body2" color="gray">
                                     Lav'auto (66)
                                 </Typography>
