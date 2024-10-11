@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const location = useLocation();
-    const { idPeople } = location.state || {};
+    const { idPeople, people } = location.state || {};
 
     // État pour gérer l'ouverture/fermeture du menu
     const [anchorEl, setAnchorEl] = useState(null);
@@ -73,7 +73,7 @@ export default function Home() {
                 <JobList idPeople={idPeople} />
 
                 {/* Colonne droite : Détail de l'offre */}
-                <JobDetails idPeople={idPeople} />
+                <JobDetails idPeople={idPeople} people={people} />
             </Grid>
         </Box>
     );

@@ -42,6 +42,7 @@ namespace Project.Server.Controllers
             var sqlCount = "SELECT id, password FROM Credentials WHERE username = '"+username.Trim()+"'";
 
             int idPeople = 0;
+            PeopleModel people = null;
             try
             {
                 var User = await _context.Credentials
@@ -53,9 +54,28 @@ namespace Project.Server.Controllers
                             })
                             .FirstOrDefaultAsync();
 
+                var sqlPeople = "SELECT * FROM People WHERE id = '"+User.Id+"'";
+
+                var People = await _context.People
+                            .FromSqlRaw(sqlPeople)
+                            .Select(p => new
+                            {
+                                p.Id,
+                                p.FirstName,
+                                p.LastName,
+                                p.Email,
+                                p.Phone
+                            })
+                            .FirstOrDefaultAsync();
+
                 if (User == null)
                 {
                     listError.Add("Le nom d'utilisateur renseigné n'existe pas.");
+                    isValidate = false;
+                }
+                if (People == null)
+                {
+                    listError.Add("Ce people n'existe pas.");
                     isValidate = false;
                 }
                 else
@@ -72,7 +92,8 @@ namespace Project.Server.Controllers
 
             if (isValidate)
             {
-                return Ok(new { idPeople = idPeople });
+                Console.WriteLine(people);
+                return Ok(new { idPeople,  people });
             }
             else
             {
