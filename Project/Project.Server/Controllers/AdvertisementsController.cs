@@ -9,18 +9,19 @@ namespace Project.Server.Controllers
     [ApiController]
     public class AdvertisementsController : ControllerBase
     {
-        private readonly AdvertisementContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AdvertisementsController(AdvertisementContext context)
+        public AdvertisementsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
         // GET: api/advertisements
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> GetAdvertisements()
+        public async Task<ActionResult> GetAdvertisements()
         {
-            return await _context.Advertisements.ToListAsync();
+            var advertisements = await _context.Advertisements.ToListAsync();
+            return Ok(advertisements);
         }
 
         // GET: api/advertisements/5

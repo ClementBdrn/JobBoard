@@ -19,11 +19,12 @@ export default function JobList() {
     useEffect(() => {
         const fetchAdvertisements = async () => {
             try {
-                const response = await fetch('/api/advertisements');
+                const response = await fetch('https://localhost:7007/api/advertisements');
                 const data = await response.json();
                 setAdvertisements(data);
                 setLikedItems(Array(data.length).fill(false));
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Erreur lors de la récupération des annonces :", error);
             }
         };
