@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Server.Data;
 using Project.Server.Models;
+using System.Data;
 
 namespace Project.Server.Controllers
 {
@@ -13,14 +14,23 @@ namespace Project.Server.Controllers
 
         public AdvertisementsController(ApplicationDbContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         // GET: api/advertisements
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> GetAdvertisements()
         {
-            return await _context.Advertisements.ToListAsync();
+            try
+            {
+                var advertisements = await _context.Advertisements.ToListAsync();
+                return Ok(advertisements);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur : {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         // GET: api/advertisements/5

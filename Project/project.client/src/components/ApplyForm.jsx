@@ -11,7 +11,8 @@ export default function ApplyForm() {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
-    const [selectedFile, setSelectedFile] = useState('');
+    const [selectedCV, setSelectedCV] = useState('');
+    const [selectedLM, setSelectedLM] = useState('');
     const [address, setAddress] = useState('');
 
     const handleSubmit = async (e) => {
@@ -19,8 +20,13 @@ export default function ApplyForm() {
 
         let isValidate = true;
 
-        if (selectedFile.length == 0) {
-            toast.error("Veuiller choisir un fichier.");
+        if (selectedCV.length == 0) {
+            toast.error("Veuiller d&#233;poser votre CV.");
+            isValidate = false
+        }
+
+        if (selectedLM.length == 0) {
+            toast.error("Veuiller d&#233;poser votre lettre de motivation.");
             isValidate = false
         }
 
@@ -36,7 +42,7 @@ export default function ApplyForm() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ firstname, name, phone, email, address, selectedFile }),
+                    body: JSON.stringify({ firstname, name, phone, email, address, selectedCV, selectedLM }),
                 });
                 if (response.ok) {
                     const data = await response.json();
@@ -58,12 +64,23 @@ export default function ApplyForm() {
     };
 
     // Gestion des changements dans l'input fichier
-    const handleFileChange = (event) => {
+    const handleCVChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setSelectedFile(file.name);
-        } else {
-            setSelectedFile('');
+            setSelectedCV(file.name);
+        }
+        else {
+            setSelectedCV('');
+        }
+    };
+
+    const handleLMChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedLM(file.name);
+        }
+        else {
+            setSelectedLM('');
         }
     };
 
@@ -194,18 +211,27 @@ export default function ApplyForm() {
                     />
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
-                            Choisir un fichier
-                            <input type="file" hidden onChange={handleFileChange} accept="application/pdf" />
+                            D&#233;posez votre CV
+                            <input type="file" hidden onChange={handleCVChange} accept="application/pdf" />
                         </Button>
                         <Typography variant="body2" align="left" gutterBottom>
-                            { selectedFile }
+                            {selectedCV}
+                        </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
+                            D&#233;posez votre motivation
+                            <input type="file" hidden onChange={handleLMChange} accept="application/pdf" />
+                        </Button>
+                        <Typography variant="body2" align="left" gutterBottom>
+                            {selectedLM}
                         </Typography>
                     </Box>
                     <Button
                         fullWidth
                         variant="contained"
                         color="primary"
-                        disabled={!selectedFile}
+                        disabled={!selectedCV || !selectedLM}
                         sx={{
                             backgroundColor: '#9b59b6',
                             marginTop: '1rem',

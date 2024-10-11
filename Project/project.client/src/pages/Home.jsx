@@ -19,7 +19,7 @@ export default function Home() {
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '83vw', height: '100vh', backgroundColor: 'black', color: 'white', padding: '20px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', width: '83vw', height: '100vh', backgroundColor: '#1e1E1E', color: 'white', padding: '20px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <Typography variant="h4" fontWeight="bold" sx={{ marginLeft: '10px' }}>
                     HOME

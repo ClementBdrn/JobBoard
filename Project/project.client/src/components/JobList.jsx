@@ -9,7 +9,7 @@ export default function JobList({idPeople}) {
     const [likedItems, setLikedItems] = useState([]);
 
     // Fonction pour gérer le clic sur le cœur
-    const handleHeartClick = (index) => {
+    const handleHeartClick = async (index) => {
         const updatedLikes = [...likedItems];
         updatedLikes[index] = !updatedLikes[index];
         setLikedItems(updatedLikes);
@@ -47,10 +47,13 @@ export default function JobList({idPeople}) {
         const fetchAdvertisements = async () => {
             try {
                 const response = await fetch('https://localhost:7007/api/advertisements');
-                const data = await response.json();
-                setAdvertisements(data);
-                setLikedItems(Array(data.length).fill(false));
-            } catch (error) {
+                if (response.ok) {
+                    const data = await response.json();
+                    setAdvertisements(data);
+                    setLikedItems(Array(data.length).fill(false));
+                }
+            }
+            catch (error) {
                 console.error("Erreur lors de la récupération des annonces :", error);
             }
         };

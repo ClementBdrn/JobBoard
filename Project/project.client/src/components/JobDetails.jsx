@@ -25,6 +25,7 @@ export default function JobDetails({idPeople}) {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 marginTop: '0',
+                backgroundColor: 'black',
             }}
         >
             <Box

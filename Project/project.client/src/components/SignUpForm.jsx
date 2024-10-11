@@ -103,7 +103,7 @@ export default function SignUpForm() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'black',
+                backgroundColor: '#1e1E1E',
             }}
         >
             <Container

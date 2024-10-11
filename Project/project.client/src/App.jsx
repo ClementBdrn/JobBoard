@@ -16,7 +16,7 @@ const theme = createTheme({
             main: '#9b59b6',
         },
         background: {
-            default: '#000000',
+            default: '#0D0D0D',
         },
     },
 });
@@ -26,13 +26,13 @@ const Layout = () => {
     const isLoginPage = location.pathname === '/signup' || location.pathname === '/signin';
 
     return (
-        <Box sx={{ display: 'flex', height: '100%' }}>
+        <Box sx={{ display: 'flex', height: '100%'}}>
             {!isLoginPage && (
                 <Box>
                     <SideNav />
                 </Box>
             )}
-            <Box component="main" sx={{ flexGrow: 1, height: '100%' }}>
+            <Box component="main" sx={{ flexGrow: 1, height: '100%'}}>
                 <Routes>
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/signin" element={<Signin />} />
