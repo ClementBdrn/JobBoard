@@ -1,6 +1,6 @@
 import React from 'react';
 import SideNav from './components/SideNav';
-import { Routes, Route, BrowserRouter, useLocation } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, useLocation, Navigate } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import Home from './pages/Home';
@@ -36,7 +36,7 @@ const Layout = () => {
                 <Routes>
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/signin" element={<Signin />} />
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Navigate to="/signin" replace />} />
                     <Route path="/favorite" element={<Favorite />} />
                     <Route path="/apply" element={<Apply />} />
                 </Routes>
