@@ -140,7 +140,7 @@ namespace Project.Server.Controllers
                         await transaction.CommitAsync();
 
                         // Réponse au frontend
-                        return Ok();
+                        return Ok(new { idPeople = idPeople });
                     }
                     catch (Exception ex)
                     {

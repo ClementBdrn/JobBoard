@@ -38,8 +38,10 @@ export default function SignUpForm() {
                     body: JSON.stringify({ username, password }),
                 });
                 if (response.ok) {
+                    const data = await response.json();
+                    const idPeople = data.idPeople;
                     // Redirection vers la page d'accueil
-                    navigate('/');
+                    navigate('/', { state: { idPeople }});
                 }
                 else {
                     const errorData = await response.json();

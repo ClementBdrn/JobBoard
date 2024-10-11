@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea } from '@mui/material';
 import { Search, Person } from '@mui/icons-material';
 import SearchBar from '../components/SearchBar';
@@ -7,6 +8,8 @@ import JobDetails from '../components/JobDetails';
 import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+    const location = useLocation();
+    const { idPeople } = location.state || {};
 
     const navigate = useNavigate();
 
@@ -31,10 +34,10 @@ export default function Home() {
             {/* Corps de la page */}
             <Grid container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', marginTop: '30px', padding: '0 40px 0 40px' }}>
                 {/* Colonne gauche : Liste des offres avec scroll */}
-                <JobList />
+                <JobList idPeople={idPeople} />
 
                 {/* Colonne droite : Détail de l'offre */}
-                <JobDetails />
+                <JobDetails idPeople={idPeople} />
             </Grid>
         </Box>
     );

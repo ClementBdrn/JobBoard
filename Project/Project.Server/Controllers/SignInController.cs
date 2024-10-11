@@ -41,6 +41,7 @@ namespace Project.Server.Controllers
 
             var sqlCount = "SELECT id, password FROM Credentials WHERE username = '"+username.Trim()+"'";
 
+            int idPeople = 0;
             try
             {
                 var User = await _context.Credentials
@@ -59,6 +60,7 @@ namespace Project.Server.Controllers
                 }
                 else
                 {
+                    idPeople = User.Id;
                     if (VerifyPassword(User.Password, password) != PasswordVerificationResult.Success)
                     {
                         listError.Add("Le mot de passe n'est pas valide.");
@@ -70,7 +72,7 @@ namespace Project.Server.Controllers
 
             if (isValidate)
             {
-                return Ok();
+                return Ok(new { idPeople = idPeople });
             }
             else
             {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Grid, Card, CardContent, CardActionArea, Typography, IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
-export default function JobList() {
+export default function JobList({idPeople}) {
     // État pour les annonces
     const [advertisements, setAdvertisements] = useState([]);
     // État pour les likes
@@ -13,6 +13,33 @@ export default function JobList() {
         const updatedLikes = [...likedItems];
         updatedLikes[index] = !updatedLikes[index];
         setLikedItems(updatedLikes);
+
+        const ad = advertisements[index];
+        if (updatedLikes[index]) {
+            try {
+                const response = await fetch('https://localhost:7007/api/favorites', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userId: idPeople, // Envoyer l'ID de l'utilisateur
+                        adId: ad.id, // Envoyer l'ID de l'annonce
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erreur lors de l\'ajout aux favoris');
+                }
+
+                // Optionnel : Traitez la réponse si nécessaire
+                const result = await response.json();
+                console.log('Favori ajouté :', result);
+            }
+            catch (error) {
+                console.error("Erreur lors de l'ajout aux favoris :", error);
+            }
+        }
     };
 
     // Récupérer les annonces depuis l'API

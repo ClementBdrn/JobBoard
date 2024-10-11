@@ -3,7 +3,7 @@ import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardAction
 import { useNavigate } from 'react-router-dom';
 import { Search, Person, Favorite, FavoriteBorder } from '@mui/icons-material';
 
-export default function JobDetails() {
+export default function JobDetails({idPeople}) {
     const navigate = useNavigate();
 
     const handleSubmit = () => {

@@ -76,8 +76,11 @@ export default function SignUpForm() {
                     body: JSON.stringify({ name, username, birthDate, phone, email, password1, password2 }),
                 });
                 if (response.ok) {
+                    const data = await response.json();
+                    const idPeople = data.idPeople;
+
                     // Redirection vers la page d'accueil
-                    navigate('/');
+                    navigate('/', { state: {idPeople}});
                 }
                 else {
                     const errorData = await response.json();

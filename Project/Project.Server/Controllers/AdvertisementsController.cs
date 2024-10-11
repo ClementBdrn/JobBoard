@@ -9,9 +9,9 @@ namespace Project.Server.Controllers
     [ApiController]
     public class AdvertisementsController : ControllerBase
     {
-        private readonly AdvertisementContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AdvertisementsController(AdvertisementContext context)
+        public AdvertisementsController(ApplicationDbContext context)
         {
             _context = context;
         }
