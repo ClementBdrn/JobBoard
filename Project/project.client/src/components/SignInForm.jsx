@@ -41,7 +41,7 @@ export default function SignUpForm() {
                     const data = await response.json();
                     const idPeople = data.idPeople;
                     // Redirection vers la page d'accueil
-                    navigate('/', { state: { idPeople }});
+                    navigate('/home', { state: { idPeople }});
                 }
                 else {
                     const errorData = await response.json();

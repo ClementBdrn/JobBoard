@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea } from '@mui/material';
+import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea, Menu, MenuItem } from '@mui/material';
 import { Search, Person } from '@mui/icons-material';
 import SearchBar from '../components/SearchBar';
 import JobList from '../components/JobList';
@@ -11,12 +11,33 @@ export default function Home() {
     const location = useLocation();
     const { idPeople } = location.state || {};
 
-    const navigate = useNavigate();
+    // État pour gérer l'ouverture/fermeture du menu
+    const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleSubmit = () => {
-        // Redirection vers la page d'accueil
-        navigate('/signin');
+    // Fonction pour ouvrir le menu
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.currentTarget);
     };
+
+    // Fonction pour fermer le menu
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const navProfil = useNavigate();
+    const handleNavProfil = () => {
+        navProfil('');
+    }
+
+    const navSettings = useNavigate();
+    const handleNavSettings = () => {
+        navSettings('');
+    }
+
+    const navSignIn = useNavigate();
+    const handleNavSignIn = () => {
+        navSignIn('/');
+    }
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', width: '83vw', height: '100vh', backgroundColor: '#1e1E1E', color: 'white', padding: '20px' }}>
@@ -28,7 +49,22 @@ export default function Home() {
                 {/* Barre de recherche */}
                 <SearchBar />
 
-                <Person sx={{ color: '#AC5FE9', marginLeft: 2, cursor: 'pointer' }} onClick={handleSubmit} />
+                <Person sx={{ color: '#AC5FE9', marginLeft: 2, cursor: 'pointer' }} onClick={handleMenuClick} />
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)} // Vérifie si le menu doit être ouvert
+                    onClose={handleClose} // Ferme le menu
+                    PaperProps={{
+                        sx: {
+                            backgroundColor: 'black', // Fond noir pour le menu
+                            color: 'violet', // Texte violet
+                        },
+                    }}
+                >
+                    <MenuItem onClick={handleNavProfil} sx={{ color: 'violet' }}>Profil</MenuItem>
+                    <MenuItem onClick={handleNavSettings} sx={{ color: 'violet' }}>Param&egrave;tres</MenuItem>
+                    <MenuItem onClick={handleNavSignIn} sx={{ color: 'violet' }}>Se d&eacute;connecter</MenuItem>
+                </Menu>
             </Box>
 
             {/* Corps de la page */}

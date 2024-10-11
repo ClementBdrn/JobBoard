@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Server.Data;
 using Project.Server.Models;
-using System.Data;
 
 namespace Project.Server.Controllers
 {
@@ -28,6 +27,7 @@ namespace Project.Server.Controllers
             }
             catch (Exception ex)
             {
+                // Enregistre l'erreur dans les logs ou la console
                 Console.WriteLine($"Erreur : {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }

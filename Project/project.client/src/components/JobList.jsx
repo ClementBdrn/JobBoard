@@ -47,13 +47,13 @@ export default function JobList({idPeople}) {
         const fetchAdvertisements = async () => {
             try {
                 const response = await fetch('https://localhost:7007/api/advertisements');
+
                 if (response.ok) {
                     const data = await response.json();
                     setAdvertisements(data);
                     setLikedItems(Array(data.length).fill(false));
                 }
-            }
-            catch (error) {
+            } catch (error) {
                 console.error("Erreur lors de la récupération des annonces :", error);
             }
         };
@@ -104,7 +104,7 @@ export default function JobList({idPeople}) {
                             <CardActionArea>
                                 <CardContent>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
+                                        <Typography variant="h5" fontWeight="bold" sx={{ color: 'white !important' }}>
                                             {ad.title} {/* Récupérer dynamiquement le titre */}
                                         </Typography>
 

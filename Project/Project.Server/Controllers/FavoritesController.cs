@@ -16,10 +16,10 @@ namespace Project.Server.Controllers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> ReceiveUserData([FromBody] FavoritesModel model)
-        //{
-        //    //return Ok();
-        //}
+        /*[HttpPost]
+        public async Task<IActionResult> ReceiveUserData([FromBody] FavoritesModel model)
+        {
+            //return Ok();
+        }*/
     }
 }
