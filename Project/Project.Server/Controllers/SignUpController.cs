@@ -74,6 +74,17 @@ namespace Project.Server.Controllers
                 isValidate = false;
             }
 
+            var sqlCount = "SELECT id FROM Credentials WHERE username = '" + username.Trim() + "'";
+            var User = await _context.Credentials
+                            .FromSqlRaw(sqlCount)
+                            .Select(p => p.Id)
+                            .FirstOrDefaultAsync();
+
+            if (User != null && User != 0) {
+                listError.Add("Le nom d'utilisateur n'est pas disponible.");
+                isValidate = false;
+            }
+
             if (isValidate)
             {
                 // BDD

@@ -1,12 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function SignUpForm() {
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
-        navigate('/home');
+    //Email
+    const [username, setUsername] = useState("");
+    const handleUsernameChange = (e) => {
+        setUsername(e.target.value);
+    }
+
+    //Password
+    const [password, setPassword] = useState("");
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        let isValidate = true;
+        if (username.length == 0 || password.length == 0) {
+            toast.error("Tous les champs doivent \u00eatre renseign\u00e9s.");
+            isValidate = false
+        }
+
+        if (isValidate) {
+            try {
+                const response = await fetch("https://localhost:7007/api/signin", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+                if (response.ok) {
+                    // Redirection vers la page d'accueil
+                    navigate('/home');
+                }
+                else {
+                    const errorData = await response.json();
+
+                    errorData.errors.forEach((errorMessage) => {
+                        toast.error(errorMessage);
+                    });
+                }
+            } catch (error) {
+                console.error("Erreur réseau :", error);
+            }
+        }
     };
 
     const handleSignUp = () => {
@@ -50,7 +95,7 @@ export default function SignUpForm() {
                 <Box component="form" noValidate autoComplete="off">
                     <TextField
                         fullWidth
-                        label="Adresse E-mail"
+                        label="Username"
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
@@ -63,6 +108,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={username}
+                        onChange={handleUsernameChange}
                     />
                     <TextField
                         fullWidth
@@ -80,6 +127,8 @@ export default function SignUpForm() {
                                 borderColor: '#9b59b6',
                             },
                         }}
+                        value={password}
+                        onChange={handlePasswordChange}
                     />
                     <Typography sx={{ color: '#9b59b6', cursor: 'pointer' }} gutterBottom onClick={handleSignUp}>
                         Vous n'avez pas de compte ? Inscription.
@@ -101,6 +150,7 @@ export default function SignUpForm() {
                     </Button >
                 </Box >
             </Container >
+            <ToastContainer />
 
             {/* Footer */}
             < Box
