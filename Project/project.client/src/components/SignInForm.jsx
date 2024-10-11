@@ -6,7 +6,7 @@ export default function SignUpForm() {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
-        navigate('/');
+        navigate('/home');
     };
 
     const handleSignUp = () => {

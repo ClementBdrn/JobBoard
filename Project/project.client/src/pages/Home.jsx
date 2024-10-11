@@ -11,8 +11,7 @@ export default function Home() {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
-        // Redirection vers la page d'accueil
-        navigate('/signin');
+        navigate('/');
     };
 
     return (

@@ -69,7 +69,7 @@ export default function SideNav() {
     const [open, setOpen] = React.useState(true);
 
     const navLinks = [
-        { path: '/', label: 'Home' },
+        { path: '/home', label: 'Home' },
         { path: '/favorite', label: 'Favorite' },
         { path: '/apply', label: 'Apply' },
     ];
