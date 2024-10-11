@@ -36,7 +36,7 @@ export default function Home() {
 
     const navSignIn = useNavigate();
     const handleNavSignIn = () => {
-        navSignIn('/signin');
+        navSignIn('/');
     }
 
     return (

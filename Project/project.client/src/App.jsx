@@ -23,7 +23,7 @@ const theme = createTheme({
 
 const Layout = () => {
     const location = useLocation();
-    const isLoginPage = location.pathname === '/signup' || location.pathname === '/signin';
+    const isLoginPage = location.pathname === '/signup' || location.pathname === '/';
 
     return (
         <Box sx={{ display: 'flex', height: '100%' }}>
@@ -35,8 +35,8 @@ const Layout = () => {
             <Box component="main" sx={{ flexGrow: 1, height: '100%' }}>
                 <Routes>
                     <Route path="/signup" element={<Signup />} />
-                    <Route path="/signin" element={<Signin />} />
-                    <Route path="/" element={<Navigate to="/signin" replace />} />
+                    <Route path="/" element={<Signin />} />
+                    <Route path="/home" element={<Home />} />
                     <Route path="/favorite" element={<Favorite />} />
                     <Route path="/apply" element={<Apply />} />
                 </Routes>

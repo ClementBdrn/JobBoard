@@ -42,7 +42,7 @@ export default function ApplyForm() {
                     const data = await response.json();
                     console.log("Données reçues du backend :", data);
 
-                    navigate('/');
+                    navigate('/home');
                 }
                 else {
                     const errorData = await response.json();

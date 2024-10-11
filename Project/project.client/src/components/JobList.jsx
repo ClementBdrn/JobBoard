@@ -104,7 +104,7 @@ export default function JobList({idPeople}) {
                             <CardActionArea>
                                 <CardContent>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                        <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
+                                        <Typography variant="h5" fontWeight="bold" sx={{ color: 'white !important' }}>
                                             {ad.title} {/* Récupérer dynamiquement le titre */}
                                         </Typography>
 
