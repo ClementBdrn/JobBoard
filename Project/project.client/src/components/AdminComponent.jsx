@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography, Card, CardContent, CardActions, Grid, Box } from '@mui/material';
 
-const AdminStatic = () => {
+export default function AdminStatic() {
     // Liste statique de jobs pour l'affichage
     const initialJobs = [
         { id: 1, title: 'Nettoyeur de voiture (H/F)', company: 'Lav\'auto', location: 'Perpignan 66000', description: 'Nous sommes une entreprise de nettoyage située sur Perpignan...' },
@@ -131,5 +131,3 @@ const AdminStatic = () => {
         </Box>
     );
 };
-
-export default AdminStatic;

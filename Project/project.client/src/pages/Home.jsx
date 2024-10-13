@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Home() {
     const location = useLocation();
     const { idPeople, people } = location.state || {};
+    const navigate = useNavigate();
 
     // État pour gérer l'ouverture/fermeture du menu
     const [anchorEl, setAnchorEl] = useState(null);
@@ -24,19 +25,16 @@ export default function Home() {
         setAnchorEl(null);
     };
 
-    const navProfil = useNavigate();
     const handleNavProfil = () => {
-        navProfil('');
+        navigate('/profil');
     }
 
-    const navSettings = useNavigate();
     const handleNavSettings = () => {
-        navSettings('');
+        navigate('/admin');
     }
 
-    const navSignIn = useNavigate();
     const handleNavSignIn = () => {
-        navSignIn('/');
+        navigate('/');
     }
 
     return (
