@@ -231,7 +231,7 @@ export default function ApplyForm({people}) {
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
-                            D&#233;posez votre motivation
+                            D&#233;posez votre LM
                             <input type="file" hidden onChange={handleLMChange} accept="application/pdf" />
                         </Button>
                         <Typography variant="body2" align="left" gutterBottom>
