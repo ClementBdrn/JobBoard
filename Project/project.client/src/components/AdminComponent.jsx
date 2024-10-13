@@ -30,7 +30,9 @@ const AdminStatic = () => {
 
     return (
         <Box sx={{ backgroundColor: '#2C2C2E', color: 'white', padding: '2rem', borderRadius: '10px' }}>
-            <Typography variant="h4" gutterBottom>Administration</Typography>
+            <Typography variant="h4" fontWeight="bold" sx={{ marginLeft: '10px' }}>
+                ADMINISTRATION
+            </Typography>
 
             {/* Formulaire pour ajouter un job */}
             <Box component="form" onSubmit={handleAddJob} sx={{ mt: 3 }}>
