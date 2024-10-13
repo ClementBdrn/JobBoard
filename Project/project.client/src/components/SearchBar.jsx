@@ -45,6 +45,7 @@ export default function SearchBar() {
                     display: 'flex',
                     alignItems: 'center',
                     border: '2px solid #AC5FE9',
+                    backgroundColor: 'black',
                     borderRadius: '10px',
                     padding: '5px',
                     height: '50px',
