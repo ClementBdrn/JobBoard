@@ -9,6 +9,7 @@ import Signin from './pages/SignIn';
 import Follow from './pages/Apply';
 import Favorite from './pages/Favorites';
 import Apply from './pages/Apply';
+import Admin from './pages/Admin';
 
 const theme = createTheme({
     palette: {
@@ -39,6 +40,7 @@ const Layout = () => {
                     <Route path="/home" element={<Home />} />
                     <Route path="/favorite" element={<Favorite />} />
                     <Route path="/apply" element={<Apply />} />
+                    <Route path="/admin" element={<Admin />} />
                 </Routes>
             </Box>
         </Box>

@@ -72,6 +72,7 @@ export default function SideNav() {
         { path: '/home', label: 'Home' },
         { path: '/favorite', label: 'Favorite' },
         { path: '/apply', label: 'Apply' },
+        { path: '/admin', label: 'Admin' },
     ];
 
     return (
