@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Card, CardContent, Typography, IconButton, Grid, CardActionArea } from '@mui/material';
 import { Favorite } from '@mui/icons-material';
 
-export default function FavoritesList({ favoriteItems, handleHeartClick }) {
+export default function FavoritesList({ favoriteItems, likedItems, handleHeartClick }) {
     return (
         <Grid
             item
@@ -51,7 +51,7 @@ export default function FavoritesList({ favoriteItems, handleHeartClick }) {
                                         </Typography>
                                         {/* Bouton cœur */}
                                         <IconButton onClick={() => handleHeartClick(item.id)} sx={{ padding: 0 }}>
-                                            <Favorite sx={{ color: 'red' }} />
+                                            <Favorite sx={{ color: likedItems[index] ? 'red' : 'gray' }} />
                                         </IconButton>
                                     </Box>
                                     <Typography variant="body2" color="gray">

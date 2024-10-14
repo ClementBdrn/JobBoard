@@ -4,43 +4,35 @@ import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
 import { Box } from '@mui/material';
 
-export default function JobsPage() {
+export default function Favorites() {
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [allJobs, setAllJobs] = useState('');
 
     // État pour les likes
     const [likedItems, setLikedItems] = useState([]);
 
-    // Fonction pour gérer le clic sur le cœur
-    const handleHeartClick = async (index) => {
+    const handleHeartClick = async (id) => {
         const updatedLikes = [...likedItems];
+        const index = favoriteItems.findIndex((item) => item.id === id);
+
         updatedLikes[index] = !updatedLikes[index];
         setLikedItems(updatedLikes);
+        console.log(id);
 
-        const ad = advertisements[index];
-        if (updatedLikes[index]) {
+        if (!updatedLikes[index]) {
             try {
-                const response = await fetch('https://localhost:7007/api/favorites', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userId: idPeople,
-                        adId: ad.id,
-                    }),
+                const response = await fetch(`https://localhost:7007/api/favorites/page/${id}`, {
+                    method: 'DELETE',
                 });
 
                 if (!response.ok) {
-                    throw new Error('Erreur lors de l\'ajout aux favoris');
+                    throw new Error('Erreur lors de la suppression du favori');
                 }
 
-                // Optionnel : Traitez la réponse si nécessaire
-                const result = await response.json();
-                console.log('Favori ajouté :', result);
+                setFavoriteItems((prevFavorites) => prevFavorites.filter((item) => item.id !== id));
             }
             catch (error) {
-                console.error("Erreur lors de l'ajout aux favoris :", error);
+                console.error("Erreur lors de la suppression du favori :", error);
             }
         }
     }; 
@@ -54,10 +46,13 @@ export default function JobsPage() {
                     const data = await response.json();
                     console.log(data);
                     setFavoriteItems(data);
+
+                    // Initialiser l'état likedItems avec les favoris actuels
+                    const initialLikes = data.map(() => true);
+                    setLikedItems(initialLikes);
                 }
-            }
-            catch (error) {
-                console.error("Erreur lors de la récupération des favorites :", error);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des favoris :", error);
             }
         };
 
@@ -66,7 +61,7 @@ export default function JobsPage() {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            <FavoritesList favoriteItems={favoriteItems} handleHeartClick={handleHeartClick} />
+            <FavoritesList favoriteItems={favoriteItems} handleHeartClick={handleHeartClick} likedItems={likedItems} />
             <JobDetails />
         </Box>
     );
