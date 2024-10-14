@@ -17,13 +17,8 @@ export function useVerificationToken() {
                         }
                     });
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        const idPeople = data.idPeople;
+                    if (!response.ok) {
                         // Redirection vers la page d'accueil
-                        navigate('/home', { state: { idPeople } });
-                    }
-                    else {
                         navigate('/');
                     }
                 }
@@ -33,6 +28,8 @@ export function useVerificationToken() {
             };
 
             verifyToken();
+        } else {
+            navigate('/');
         }
     }, [navigate]);
 }
