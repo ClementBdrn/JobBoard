@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
     const location = useLocation();
-    const { idPeople } = location.state || {};
+    const { idPeople, people } = location.state || {};
+    const navigate = useNavigate();
 
-    // État pour gérer l'ouverture/fermeture du menu
+    // ï¿½tat pour gï¿½rer l'ouverture/fermeture du menu
     const [anchorEl, setAnchorEl] = useState(null);
 
     // Fonction pour ouvrir le menu
@@ -24,17 +25,14 @@ export default function Home() {
         setAnchorEl(null);
     };
 
-    const navProfil = useNavigate();
     const handleNavProfil = () => {
-        navProfil('');
+        navigate('/profil');
     }
 
-    const navSettings = useNavigate();
     const handleNavSettings = () => {
-        navSettings('');
+        navigate('/admin');
     }
 
-    const navSignIn = useNavigate();
     const handleNavSignIn = () => {
         const disconnect = async () => {
             try {
@@ -73,7 +71,7 @@ export default function Home() {
                 <Person sx={{ color: '#AC5FE9', marginLeft: 2, cursor: 'pointer' }} onClick={handleMenuClick} />
                 <Menu
                     anchorEl={anchorEl}
-                    open={Boolean(anchorEl)} // Vérifie si le menu doit être ouvert
+                    open={Boolean(anchorEl)} // Vï¿½rifie si le menu doit ï¿½tre ouvert
                     onClose={handleClose} // Ferme le menu
                     PaperProps={{
                         sx: {
@@ -93,8 +91,8 @@ export default function Home() {
                 {/* Colonne gauche : Liste des offres avec scroll */}
                 <JobList idPeople={idPeople} />
 
-                {/* Colonne droite : Détail de l'offre */}
-                <JobDetails idPeople={idPeople} />
+                {/* Colonne droite : Dï¿½tail de l'offre */}
+                <JobDetails idPeople={idPeople} people={people} />
             </Grid>
         </Box>
     );

@@ -3,7 +3,7 @@ import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
-export default function ApplyForm() {
+export default function ApplyForm({people}) {
     const navigate = useNavigate();
 
     // &#233;tat pour les informations de formulaire
@@ -30,11 +30,6 @@ export default function ApplyForm() {
             isValidate = false
         }
 
-        if (firstname.length == 0 || name.length == 0 || phone.length == 0 || email.length == 0 || address.length == 0) {
-            toast.error("Tous les champs doivent \u00eatre renseign\u00e9s.");
-            isValidate = false
-        }
-
         if (isValidate) {
             try {
                 const response = await fetch("https://localhost:7007/api/applyForm", {
@@ -46,7 +41,7 @@ export default function ApplyForm() {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("Données reçues du backend :", data);
+                    console.log("Donn&#233;es reçues du backend :", data);
 
                     navigate('/home');
                 }
@@ -57,8 +52,9 @@ export default function ApplyForm() {
                         toast.error(errorMessage);
                     });
                 }
-            } catch (error) {
-                console.error("Erreur réseau :", error);
+            }
+            catch (error) {
+                console.error("Erreur r&#233;seau :", error);
             }
         }
     };
@@ -92,7 +88,7 @@ export default function ApplyForm() {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'black',
+                backgroundColor: '#1e1E1E', 
             }}
         >
             <Container
@@ -125,7 +121,10 @@ export default function ApplyForm() {
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        InputProps={{
+                            readOnly: true, // Le champ est en lecture seule
+                            style: { borderColor: '#9b59b6', color: 'white' }
+                        }}
                         sx={{
                             '& fieldset': {
                                 borderColor: '#9b59b6',
@@ -143,7 +142,10 @@ export default function ApplyForm() {
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        InputProps={{
+                            readOnly: true, // Le champ est en lecture seule
+                            style: { borderColor: '#9b59b6', color: 'white' }
+                        }}
                         sx={{
                             '& fieldset': {
                                 borderColor: '#9b59b6',
@@ -161,7 +163,10 @@ export default function ApplyForm() {
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        InputProps={{
+                            readOnly: true, // Le champ est en lecture seule
+                            style: { borderColor: '#9b59b6', color: 'white' }
+                        }}
                         sx={{
                             '& fieldset': {
                                 borderColor: '#9b59b6',
@@ -179,7 +184,10 @@ export default function ApplyForm() {
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        InputProps={{
+                            readOnly: true, // Le champ est en lecture seule
+                            style: { borderColor: '#9b59b6', color: 'white' }
+                        }}
                         sx={{
                             '& fieldset': {
                                 borderColor: '#9b59b6',
@@ -197,7 +205,10 @@ export default function ApplyForm() {
                         variant="outlined"
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{ style: { borderColor: '#9b59b6', color: 'white' } }}
+                        InputProps={{
+                            readOnly: true, // Le champ est en lecture seule
+                            style: { borderColor: '#9b59b6', color: 'white' }
+                        }}
                         sx={{
                             '& fieldset': {
                                 borderColor: '#9b59b6',
@@ -220,7 +231,7 @@ export default function ApplyForm() {
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Button variant="contained" component="label" sx={{ marginRight: 2 }}>
-                            D&#233;posez votre motivation
+                            D&#233;posez votre LM
                             <input type="file" hidden onChange={handleLMChange} accept="application/pdf" />
                         </Button>
                         <Typography variant="body2" align="left" gutterBottom>

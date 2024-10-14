@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Project.Server.Data;
 using Project.Server.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Project.Server.Controllers
 {
@@ -30,6 +33,35 @@ namespace Project.Server.Controllers
                 // Enregistre l'erreur dans les logs ou la console
                 Console.WriteLine($"Erreur : {ex.Message}");
                 return StatusCode(500, "Internal server error");
+            }
+        }
+
+        // Ajoutez ceci à votre classe AdvertisementsController
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> SearchAdvertisements(string searchTerm)
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                return BadRequest("Le terme de recherche ne peut pas être vide.");
+            }
+
+            try
+            {
+                var advertisements = await _context.Advertisements
+                    .Where(a => a.Name.Contains(searchTerm)) // Assurez-vous que "Name" est une propriété de votre modèle
+                    .ToListAsync();
+
+                if (advertisements.Count == 0)
+                {
+                    return NotFound("Aucune annonce trouvée pour le terme de recherche spécifié.");
+                }
+
+                return Ok(advertisements);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur lors de la recherche : {ex.Message}");
+                return StatusCode(500, "Erreur interne du serveur");
             }
         }
 

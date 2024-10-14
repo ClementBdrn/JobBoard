@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container } from '@mui/material';
+import { Box, TextField, Button, Typography, Container, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,24 +14,28 @@ export default function SignInForm() {
     const [username, setUsername] = useState("");
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
-    }
+    };
 
     //Password
     const [password, setPassword] = useState("");
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-    }
+    };
+
+    // Loader state
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let isValidate = true;
-        if (username.length == 0 || password.length == 0) {
-            toast.error("Tous les champs doivent \u00eatre renseign\u00e9s.");
-            isValidate = false
+        if (username.length === 0 || password.length === 0) {
+            toast.error("Tous les champs doivent ï¿½tre renseignï¿½s.");
+            isValidate = false;
         }
 
         if (isValidate) {
+            setIsLoading(true);
             try {
                 const response = await fetch("https://localhost:7007/api/SignIn/signin", {
                     method: "POST",
@@ -52,20 +56,21 @@ export default function SignInForm() {
                 }
                 else {
                     const errorData = await response.json();
-
                     errorData.errors.forEach((errorMessage) => {
                         toast.error(errorMessage);
                     });
                 }
             } catch (error) {
-                console.error("Erreur réseau :", error);
+                console.error("Erreur rï¿½seau :", error);
+            } finally {
+                setIsLoading(false);
             }
         }
     };
 
     const handleSignUp = () => {
         navigate('/signup');
-    }
+    };
 
     return (
         <Box
@@ -93,14 +98,13 @@ export default function SignInForm() {
                 </Typography>
 
                 <Typography variant="h5" align="left" gutterBottom>
-                    Connection
+                    Connexion
                 </Typography>
 
                 <Typography variant="body1" align="left" gutterBottom>
                     Connectez-vous.
                 </Typography>
 
-                {/* Formulaire */}
                 <Box component="form" noValidate autoComplete="off">
                     <TextField
                         fullWidth
@@ -142,10 +146,13 @@ export default function SignInForm() {
                     <Typography sx={{ color: '#9b59b6', cursor: 'pointer' }} gutterBottom onClick={handleSignUp}>
                         Vous n'avez pas de compte ? Inscription.
                     </Typography>
-                    < Button
+
+                    {/* Bouton de soumission */}
+                    <Button
                         fullWidth
                         variant="contained"
                         color="primary"
+                        disabled={isLoading} // Dï¿½sactiver le bouton pendant le chargement
                         sx={{
                             backgroundColor: '#9b59b6',
                             marginTop: '1rem',
@@ -155,14 +162,14 @@ export default function SignInForm() {
                         }}
                         onClick={handleSubmit}
                     >
-                        Se connecter
-                    </Button >
-                </Box >
-            </Container >
+                        {isLoading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : "Se connecter"}
+                    </Button>
+                </Box>
+            </Container>
             <ToastContainer />
 
             {/* Footer */}
-            < Box
+            <Box
                 sx={{
                     position: 'absolute',
                     bottom: '10px',
@@ -171,8 +178,8 @@ export default function SignInForm() {
                     color: 'white',
                 }}
             >
-                <Typography variant="caption">&#169; 2024 Ch&#244;mage</Typography>
-            </Box >
-        </Box >
+                <Typography variant="caption">&#169; 2024 Ch&#212;mage</Typography>
+            </Box>
+        </Box>
     );
 }

@@ -2,93 +2,60 @@
 using Project.Server.Models;
 using System.Text.RegularExpressions;
 using Project.Server.Data;
+using System;
+using Microsoft.EntityFrameworkCore;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Project.Server.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class ApplyFormController : ControllerBase
+    [ApiController]
+    public class ApplyController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ApplyFormController(ApplicationDbContext context)
+        public ApplyController(ApplicationDbContext context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _context = context;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> GetAdvertisements()
+        {
+            try
+            {
+                var advertisements = await _context.Advertisements.ToListAsync();
+                return Ok(advertisements);
+            }
+            catch (Exception ex)
+            {
+                // Enregistre l'erreur dans les logs ou la console
+                Console.WriteLine($"Erreur : {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReceiveUserData([FromBody] ApplyFormModel model)
+        public async Task<IActionResult> PostApply([FromBody] ApplyFormModel apply)
         {
-            List<string> listError = new List<string>();
-            bool isValidate = true;
-
-            string firstName = model.Firstname;
-            string name = model.Name;
-            string email = model.Email;
-            string phone = model.Phone;
-            string address = model.Address;
-
-            Regex regex = new Regex(@"^[^\s@]+@[^\s@]+\.[^\s@]+$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            if (!regex.IsMatch(email))
+            if (!ModelState.IsValid)
             {
-                listError.Add("L'email n'est pas valide.");
-                isValidate = false;
+                return BadRequest(ModelState);
             }
 
-            if (firstName.Trim() == "")
+            try
             {
-                listError.Add("Vous devez rentrer un Prénom");
-                isValidate = false;
-            }
+                _context.Applies.Add(apply);
+                await _context.SaveChangesAsync();
 
-            if (name.Trim() == "")
+                return Ok(new { message = "Candidature soumise avec succès !" });
+            }
+            catch (Exception ex)
             {
-                listError.Add("Vous devez rentrer un Nom");
-                isValidate = false;
+                // Journaliser l'erreur
+                Console.WriteLine($"Erreur lors de la soumission de la candidature : {ex.Message}");
+                return StatusCode(500, "Erreur interne du serveur");
             }
-
-            //if (isValidate)
-            //{
-            //    // BDD
-            //    var newPerson = new PeopleModel
-            //    {
-            //        FirstName = firstName,
-            //        LastName = name,
-            //        Email = email,
-            //        Phone = phone,
-            //        //address
-            //        IsEmployed = false,
-            //        IdCompanies = null
-            //    };
-
-            //    _context.People.Add(newPerson);
-            //    await _context.SaveChangesAsync();
-            //    int newPersonId = newPerson.Id;
-
-            //    // Paramètres SQL
-            //    var credentials = new CredentialsModel
-            //    {
-            //        Username = username,
-            //        Password = HashPassword(password1),
-            //        IdPeople = newPersonId,
-            //        DateModif = DateTime.Now
-            //    };
-
-            //    _context.Credentials.Add(credentials);
-            //    await _context.SaveChangesAsync();
-
-            //    // Réponse au frontend
-            //    return Ok(new { newPersonId });
-            //}
-            //else
-            //{
-            //    return BadRequest(new
-            //    {
-            //        errors = listError
-            //    });
-            //}
-
-            return Ok(new { name });
         }
     }
 }

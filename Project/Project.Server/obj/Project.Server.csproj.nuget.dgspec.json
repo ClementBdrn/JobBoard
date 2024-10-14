@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {}
+    "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {
+    "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
+        "projectUniqueName": "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
         "projectName": "Project.Server",
-        "projectPath": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
-        "packagesPath": "C:\\Users\\cleme\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cleme\\source\\repos\\JobBoard\\Project\\Project.Server\\obj\\",
+        "projectPath": "C:\\Sources\\JobBoard\\Project\\Project.Server\\Project.Server.csproj",
+        "packagesPath": "C:\\Users\\bapti\\.nuget\\packages\\",
+        "outputPath": "C:\\Sources\\JobBoard\\Project\\Project.Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\cleme\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\bapti\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,10 +46,6 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
-              "target": "Package",
-              "version": "[8.0.10, )"
-            },
             "Microsoft.AspNetCore.SpaProxy": {
               "target": "Package",
               "version": "[8.0.10, )"
@@ -71,10 +67,6 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.8.1, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[8.1.2, )"
             }
           },
           "imports": [
@@ -96,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

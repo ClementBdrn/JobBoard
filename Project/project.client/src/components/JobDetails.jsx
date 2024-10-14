@@ -3,11 +3,11 @@ import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardAction
 import { useNavigate } from 'react-router-dom';
 import { Search, Person, Favorite, FavoriteBorder } from '@mui/icons-material';
 
-export default function JobDetails({idPeople}) {
+export default function JobDetails({idPeople, people}) {
     const navigate = useNavigate();
 
     const handleSubmit = () => {
-        navigate('/apply');
+        navigate('/apply', { state: { people } });
     };
 
     const [liked, setLiked] = useState(false);
@@ -25,7 +25,6 @@ export default function JobDetails({idPeople}) {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 marginTop: '0',
-                backgroundColor: 'black',
             }}
         >
             <Box
@@ -36,6 +35,7 @@ export default function JobDetails({idPeople}) {
                     height: '83vh',
                     overflowY: 'auto',
                     marginLeft: 'auto',
+                    backgroundColor: 'black',
                 }}
             >
             <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
