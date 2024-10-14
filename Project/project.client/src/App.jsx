@@ -11,6 +11,7 @@ import Favorite from './pages/Favorites';
 import Apply from './pages/Apply';
 import Admin from './pages/Admin';
 import Profil from './pages/Profil';
+import JobDetails from './components/JobDetails';
 
 const theme = createTheme({
     palette: {
@@ -43,6 +44,7 @@ const Layout = () => {
                     <Route path="/apply" element={<Apply />} />
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/profil" element={<Profil />} />
+                    <Route path="/job-details" element={<JobDetails />} />
                 </Routes>
             </Box>
         </Box>

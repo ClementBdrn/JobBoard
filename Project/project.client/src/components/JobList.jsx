@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Grid, Card, CardContent, CardActionArea, Typography, IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
-export default function JobList({idPeople}) {
+export default function JobList({ idPeople, onAdSelect }) {
     // État pour les annonces
     const [advertisements, setAdvertisements] = useState([]);
     // État pour les likes
@@ -15,30 +16,56 @@ export default function JobList({idPeople}) {
         setLikedItems(updatedLikes);
 
         const ad = advertisements[index];
-        if (updatedLikes[index]) {
-            try {
-                const response = await fetch('https://localhost:7007/api/favorites', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userId: idPeople, // Envoyer l'ID de l'utilisateur
-                        adId: ad.id, // Envoyer l'ID de l'annonce
-                    }),
-                });
 
-                if (!response.ok) {
-                    throw new Error('Erreur lors de l\'ajout aux favoris');
-                }
+        if (!updatedLikes[index]) {
+            await handleDeleteFavorite(ad.id, idPeople);
+        }
+        else {
+            await handleAddFavorite(ad.id, idPeople);
+        }
+    };
 
-                // Optionnel : Traitez la réponse si nécessaire
-                const result = await response.json();
-                console.log('Favori ajouté :', result);
+    const handleAddFavorite = async (adId, userId) => {
+        try {
+            console.log("Données envoyées :", { idPeople: idPeople, idAdvertisements: ad.id });
+            const response = await fetch('https://localhost:7007/api/favorites', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    idPeople: idPeople,
+                    idAdvertisements: ad.id,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de l\'ajout aux favoris');
             }
-            catch (error) {
-                console.error("Erreur lors de l'ajout aux favoris :", error);
+
+            // Optionnel : Traitez la réponse si nécessaire
+            const result = await response.json();
+            console.log('Favori ajouté :', result);
+        }
+        catch (error) {
+            console.error("Erreur lors de l'ajout aux favoris :", error);
+        }
+    }
+
+    const handleDeleteFavorite = async (adId, userId) => {
+        try {
+            const response = await fetch(`https://localhost:7007/api/favorites/${adId}?idPeople=${userId}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur lors de la suppression des favoris');
             }
+
+            const result = await response.json();
+            console.log('Favori supprimé :', result);
+        } catch (error) {
+            console.error("Erreur lors de la suppression des favoris :", error);
         }
     };
 
@@ -53,7 +80,8 @@ export default function JobList({idPeople}) {
                     setAdvertisements(data);
                     setLikedItems(Array(data.length).fill(false));
                 }
-            } catch (error) {
+            }
+            catch (error) {
                 console.error("Erreur lors de la récupération des annonces :", error);
             }
         };
@@ -101,11 +129,11 @@ export default function JobList({idPeople}) {
                                 borderRadius: '10px',
                             }}
                         >
-                            <CardActionArea>
+                            <CardActionArea onClick={() => onAdSelect(ad)}>
                                 <CardContent>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography variant="h5" fontWeight="bold" sx={{ color: 'white !important' }}>
-                                            {ad.title} {/* Récupérer dynamiquement le titre */}
+                                            {ad.name} {/* Récupérer dynamiquement le titre */}
                                         </Typography>
 
                                         {/* Bouton cœur */}
@@ -134,7 +162,7 @@ export default function JobList({idPeople}) {
                                         </IconButton>
                                     </Box>
                                     <Typography variant="body2" color="gray">
-                                        {ad.company} ({ad.location}) {/* Récupérer dynamiquement l'entreprise et l'emplacement */}
+                                        {ad.company} {ad.place} {/* Récupérer dynamiquement l'entreprise et l'emplacement */}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
                                         {ad.description} {/* Récupérer dynamiquement la description */}

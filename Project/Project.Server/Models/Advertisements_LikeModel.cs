@@ -6,7 +6,6 @@ namespace Project.Server.Models
     {
         [Key]
         public int Id { get; set; }
-
         public int IdPeople { get; set; }
         public int IdAdvertisements { get; set; }
     }
