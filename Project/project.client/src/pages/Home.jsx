@@ -6,8 +6,11 @@ import SearchBar from '../components/SearchBar';
 import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
 import { useNavigate } from 'react-router-dom';
+import { useVerificationToken } from '../hooks/useVerificationToken';
 
 export default function Home() {
+    useVerificationToken();
+
     const location = useLocation();
     const { idPeople, people } = location.state || {};
     const navigate = useNavigate();
@@ -25,8 +28,22 @@ export default function Home() {
         setAnchorEl(null);
     };
 
-    const handleNavProfil = () => {
-        navigate('/profil');
+    const handleNavProfil = async () => {
+        try {
+            const response = await fetch("https://localhost:7007/api/Profil", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idPeople }),
+            });
+            if (response.ok) {
+                const user = await response.json();
+                navigate('/profil', { state: { user } });
+            }
+        } catch {
+            console.log("error loading People ressources.");
+        }
     }
 
     const handleNavSettings = () => {
@@ -47,7 +64,7 @@ export default function Home() {
                 if (response.ok) {
 
                     // Redirection vers la page d'accueil
-                    navSignIn('/');
+                    navigate('/');
                 }
             }
             catch {

@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
-import { Button, TextField, Typography, Card, CardContent, CardActions, Grid, Box } from '@mui/material';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { Typography, Card, CardContent, Grid, Box } from '@mui/material';
 
 export default function UserProfileStatic() {
-    // Données utilisateur statiques
-    const user = {
-        firstname: 'John',
-        lastname: 'Doe',
-        email: 'john.doe@example.com',
-        phone: '+33 6 12 34 56 78',
-        birthdate: '15/10/1990',
-        isemployed: true,
-        idcompanies: [1, 3, 5] // Par exemple, les IDs des entreprises où l'utilisateur a travaillé
-    };
+    const location = useLocation();
+    console.log(location.state);
+    const { user } = location.state.user || {};
+
+    if (!user) {
+        return (
+            <Box sx={{ backgroundColor: 'black', color: 'white', padding: '2rem', borderRadius: '10px' }}>
+                <Typography variant="h4" gutterBottom>Les données de l'utilisateur sont introuvables.</Typography>
+            </Box>
+        );
+    }
 
     return (
         <Box sx={{ backgroundColor: 'black', color: 'white', padding: '2rem', borderRadius: '10px' }}>
-            <Typography variant="h4" gutterBottom>Profil de l'utilisateur</Typography>
+            <Typography variant="h4" gutterBottom>Profil de {user.firstName}</Typography>
 
             <Card sx={{ backgroundColor: 'black', color: 'white', mt: 2, border: '1px solid #AC5FE9' }}>
                 <CardContent>
@@ -23,13 +25,13 @@ export default function UserProfileStatic() {
                         {/* Prénom */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h6">Pr&#233;nom</Typography>
-                            <Typography>{user.firstname}</Typography>
+                            <Typography>{user.firstName}</Typography>
                         </Grid>
 
                         {/* Nom de famille */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h6">Nom</Typography>
-                            <Typography>{user.lastname}</Typography>
+                            <Typography>{user.lastName}</Typography>
                         </Grid>
 
                         {/* Email */}
@@ -47,20 +49,22 @@ export default function UserProfileStatic() {
                         {/* Date de naissance */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h6">Date de naissance</Typography>
-                            <Typography>{user.birthdate}</Typography>
+                            <Typography>{user.birthDate}</Typography>
                         </Grid>
 
                         {/* Employé actuellement */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h6">Employ&#233; actuellement</Typography>
-                            <Typography>{user.isemployed ? 'Oui' : 'Non'}</Typography>
+                            <Typography>{user.isEmployed ? 'Oui' : 'Non'}</Typography>
                         </Grid>
 
                         {/* Identifiants des entreprises */}
-                        <Grid item xs={12}>
-                            <Typography variant="h6">Identifiants des entreprises</Typography>
-                            <Typography>{user.idcompanies.join(', ')}</Typography>
-                        </Grid>
+                        {user.isemployed ? 
+                            <Grid item xs={12}>
+                                <Typography variant="h6">Identifiants de l'entreprise</Typography>
+                                <Typography>{user.idCompanies.join(', ')}</Typography>
+                            </Grid>
+                        : ''}
                     </Grid>
                 </CardContent>
             </Card>
