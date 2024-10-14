@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import FavoritesList from '../components/FavoritesList';
 import JobList from '../components/JobList';
 import { Box } from '@mui/material';
+import { useVerificationToken } from '../hooks/useVerificationToken';
 
 export default function JobsPage() {
+    useVerificationToken();
+
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [allJobs, setAllJobs] = useState([
         { id: 1, title: 'Nettoyeur de voiture (H/F)', company: "Lav'auto", location: '66', description: 'Description...', postedDate: 'il y a 30 jours...' },
