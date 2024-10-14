@@ -11,5 +11,7 @@ namespace Project.Server.Models
         public string Password { get; set; }
         public int IdPeople { get; set; }
         public DateTime DateModif {  get; set; }
+        public string? Token { get; set; }
+        public DateTime? ExpirationToken { get; set; }
     }
 }

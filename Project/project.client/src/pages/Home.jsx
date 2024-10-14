@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea, Menu, MenuItem } from '@mui/material';
-import { Search, Person } from '@mui/icons-material';
+import { Box, Typography, Grid, Menu, MenuItem } from '@mui/material';
+import { Person } from '@mui/icons-material';
 import SearchBar from '../components/SearchBar';
 import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
@@ -36,7 +36,28 @@ export default function Home() {
 
     const navSignIn = useNavigate();
     const handleNavSignIn = () => {
-        navSignIn('/');
+        const disconnect = async () => {
+            try {
+                const response = await fetch("https://localhost:7007/api/Home/disconnect", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json",
+                    },
+                    body: JSON.stringify({ idPeople }),
+                });
+
+                if (response.ok) {
+
+                    // Redirection vers la page d'accueil
+                    navSignIn('/');
+                }
+            }
+            catch {
+                console.log("error disconnect");
+            }
+        };
+
+        disconnect();
     }
 
     return (

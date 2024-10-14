@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container, Link } from '@mui/material';
+import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useVerificationTokenSignIn } from '../hooks/useVerificationTokenSignIn';
 
-export default function SignUpForm() {
+export default function SignInForm() {
+    useVerificationTokenSignIn();
+
     const navigate = useNavigate();
 
     //Email
@@ -30,7 +33,7 @@ export default function SignUpForm() {
 
         if (isValidate) {
             try {
-                const response = await fetch("https://localhost:7007/api/signin", {
+                const response = await fetch("https://localhost:7007/api/SignIn/signin", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -40,6 +43,10 @@ export default function SignUpForm() {
                 if (response.ok) {
                     const data = await response.json();
                     const idPeople = data.idPeople;
+                    const token = data.token;
+
+                    localStorage.setItem('token', token);
+
                     // Redirection vers la page d'accueil
                     navigate('/home', { state: { idPeople }});
                 }
