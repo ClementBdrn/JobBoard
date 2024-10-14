@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Grid, Card, CardContent, CardActionArea, IconButton } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { Search, Person, Favorite, FavoriteBorder } from '@mui/icons-material';
+import React from 'react';
+import { Box, Typography, Grid, IconButton } from '@mui/material';
+import { Favorite, FavoriteBorder } from '@mui/icons-material';
 
-export default function JobDetails({idPeople, people}) {
-    const navigate = useNavigate();
-
-    const handleSubmit = () => {
-        navigate('/apply', { state: { people } });
-    };
-
-    const [liked, setLiked] = useState(false);
+export default function JobDetails({ selectedAd }) {
+    const [liked, setLiked] = React.useState(false);
 
     const handleHeartClick = () => {
         setLiked(!liked);
     };
+
+    if (!selectedAd) {
+        return (
+            <Grid item xs={6} sx={{ padding: 3 }}>
+                <Typography variant="h6" sx={{ color: 'gray' }}>
+                    Veuillez sélectionner une annonce pour voir les détails.
+                </Typography>
+            </Grid>
+        );
+    }
 
     return (
         <Grid
@@ -36,68 +39,54 @@ export default function JobDetails({idPeople, people}) {
                     overflowY: 'auto',
                     marginLeft: 'auto',
                     backgroundColor: 'black',
+                    width: '100%'
                 }}
             >
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <Typography variant="h5" fontWeight="bold">
-                    Nettoyeur de voiture (H/F)
-                </Typography>
-                    <IconButton onClick={() => handleHeartClick()} sx={{
-                    padding: 0,
-                    '&:focus': {
-                        outline: 'none',
-                    },
-                    '&:active': {
-                        outline: 'none',
-                    },
-                    '& .MuiTouchRipple-root': {
-                        display: 'none',
-                    },
-                }} disableRipple disableFocusRipple>
-                    {liked ? (
-                        <Favorite sx={{ color: 'red' }} />
-                    ) : (
-                        <FavoriteBorder sx={{ color: '#9b59b6' }} />
-                    )}
-                </IconButton>
-            </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
+                        {selectedAd.name}
+                    </Typography>
+                    <IconButton onClick={handleHeartClick} sx={{
+                        padding: 0,
+                        '&:focus': {
+                            outline: 'none',
+                        },
+                        '&:active': {
+                            outline: 'none',
+                        },
+                        '& .MuiTouchRipple-root': {
+                            display: 'none',
+                        },
+                    }} disableRipple disableFocusRipple>
+                        {liked ? (
+                            <Favorite sx={{ color: 'red' }} />
+                        ) : (
+                            <FavoriteBorder sx={{ color: '#9b59b6' }} />
+                        )}
+                    </IconButton>
+                </Box>
                 <Typography variant="body2" color="gray">
-                    Lav'auto (66)
+                    {selectedAd.idCompanies}
                 </Typography>
-
-                <Button
-                    variant="contained"
-                    sx={{
-                        backgroundColor: '#AC5FE9',
-                        '&:hover': { backgroundColor: '#8e44ad' },
-                        marginTop: 2,
-                    }}
-                    onClick={handleSubmit}
-                >
-                    Postulez spontan&#233;ment
-                </Button>
-
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
-                    Type de poste: CDI
+                    Type de poste: {selectedAd.contract} {/* Remplacez par le type dynamique */}
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 2 }}>
-                    Situ&#233; sur Perpignan 66000
+                    Situé sur: {selectedAd.place} {/* Remplacez par l'emplacement dynamique */}
                 </Typography>
-
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
                     Description:
                 </Typography>
                 <Typography variant="body2" color="gray" sx={{ marginTop: 2 }}>
-                    On sait depuis longtemps que travailler avec du texte lisible et contenant du sens est source de distractions...
+                    {selectedAd.description} {/* Affichage dynamique de la description */}
                 </Typography>
-
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
-                    Comp&#233;tences requises:
+                    Compétences requises:
                 </Typography>
                 <Typography variant="body2" color="gray" sx={{ marginTop: 2 }}>
-                    Il vous faudra des comp&#233;tences dans la manipulation de l'eau et de l'&#233;ponge.
+                    {selectedAd.skills} {/* Remplacez par les compétences dynamiques */}
                 </Typography>
             </Box>
         </Grid>
-    )
+    );
 }

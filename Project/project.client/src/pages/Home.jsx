@@ -12,7 +12,7 @@ export default function Home() {
     const { idPeople, people } = location.state || {};
     const navigate = useNavigate();
 
-    // État pour gérer l'ouverture/fermeture du menu
+    const [selectedAd, setSelectedAd] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
 
     // Fonction pour ouvrir le menu
@@ -38,7 +38,7 @@ export default function Home() {
     }
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '83vw', height: '100vh', backgroundColor: '#1e1E1E', color: 'white', padding: '20px' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh',width: '83vw', backgroundColor: '#1e1E1E', color: 'white', padding: '20px' }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <Typography variant="h4" fontWeight="bold" sx={{ marginLeft: '10px' }}>
                     HOME
@@ -65,13 +65,9 @@ export default function Home() {
                 </Menu>
             </Box>
 
-            {/* Corps de la page */}
             <Grid container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', marginTop: '30px', padding: '0 40px 0 40px' }}>
-                {/* Colonne gauche : Liste des offres avec scroll */}
-                <JobList idPeople={idPeople} />
-
-                {/* Colonne droite : Détail de l'offre */}
-                <JobDetails idPeople={idPeople} people={people} />
+                <JobList idPeople={idPeople} onAdSelect={setSelectedAd} />
+                <JobDetails selectedAd={selectedAd} />
             </Grid>
         </Box>
     );

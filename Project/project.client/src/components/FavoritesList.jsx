@@ -47,7 +47,7 @@ export default function FavoritesList({ favoriteItems, handleHeartClick }) {
                                 <CardContent>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
-                                            {item.title}
+                                            {item.name}
                                         </Typography>
                                         {/* Bouton cœur */}
                                         <IconButton onClick={() => handleHeartClick(item.id)} sx={{ padding: 0 }}>
@@ -55,13 +55,13 @@ export default function FavoritesList({ favoriteItems, handleHeartClick }) {
                                         </IconButton>
                                     </Box>
                                     <Typography variant="body2" color="gray">
-                                        {item.company} ({item.location})
+                                        {item.company} {item.place}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
                                         {item.description}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        {item.postedDate}
+                                        {item.datePost}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
