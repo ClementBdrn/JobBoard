@@ -1,13 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Box, Grid, Card, CardContent, CardActionArea, Typography, IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext.jsx';
 
-export default function JobList({ onAdSelect }) {
-
+export default function JobList({ onAdSelect, advertisements }) {
     const { idPeople } = useContext(AppContext);
-    const [advertisements, setAdvertisements] = useState([]);
     const [likedItems, setLikedItems] = useState([]);
 
     const calculateDaysAgo = (dateString) => {
@@ -18,7 +15,6 @@ export default function JobList({ onAdSelect }) {
         return daysDiff;
     };
 
-    // Fonction pour g&#233;rer le clic sur le cœur
     const handleHeartClick = async (index) => {
         const updatedLikes = [...likedItems];
         updatedLikes[index] = !updatedLikes[index];
@@ -51,11 +47,12 @@ export default function JobList({ onAdSelect }) {
             }
 
             const result = await response.json();
-            console.log('Favori ajout&#233; :', result);
-        } catch (error) {
+            console.log('Favori ajouté :', result);
+        }
+        catch (error) {
             console.error("Erreur lors de l'ajout aux favoris :", error);
         }
-    }
+    };
 
     const handleDeleteFavorite = async (adId, userId) => {
         try {
@@ -68,7 +65,7 @@ export default function JobList({ onAdSelect }) {
             }
 
             const result = await response.json();
-            console.log('Favori supprim&#233; :', result);
+            console.log('Favori supprimé :', result);
         } catch (error) {
             console.error("Erreur lors de la suppression des favoris :", error);
         }
@@ -84,30 +81,22 @@ export default function JobList({ onAdSelect }) {
             return [];
         }
         catch (error) {
-            console.error("Erreur lors de la r&#233;cup&#233;ration des favoris :", error);
+            console.error("Erreur lors de la récupération des favoris :", error);
             return [];
         }
     };
 
     useEffect(() => {
-        const fetchAdvertisements = async () => {
-            try {
-                const response = await fetch('https://localhost:7007/api/advertisements');
-                if (response.ok) {
-                    const data = await response.json();
-                    setAdvertisements(data);
-
-                    const likedAdIds = await fetchLikedItems();
-                    const updatedLikes = data.map(ad => likedAdIds.includes(ad.id));
-                    setLikedItems(updatedLikes);
-                }
-            } catch (error) {
-                console.error("Erreur lors de la r&#233;cup&#233;ration des annonces :", error);
-            }
+        const updateLikedItems = async () => {
+            const likedAdIds = await fetchLikedItems();
+            const updatedLikes = advertisements.map(ad => likedAdIds.includes(ad.id));
+            setLikedItems(updatedLikes);
         };
 
-        fetchAdvertisements();
-    }, [idPeople]);
+        if (advertisements.length > 0) {
+            updateLikedItems();
+        }
+    }, [advertisements, idPeople]);
 
     return (
         <Grid
@@ -180,7 +169,7 @@ export default function JobList({ onAdSelect }) {
                                         {ad.description}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        Post&#233; il y a {calculateDaysAgo(ad.datePost)} jours
+                                        Posté il y a {calculateDaysAgo(ad.datePost)} jours
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

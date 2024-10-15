@@ -59,21 +59,17 @@ namespace Project.Server.Controllers
         [HttpGet("search")]
         public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> SearchAdvertisements(string searchTerm)
         {
-            if (string.IsNullOrWhiteSpace(searchTerm))
-            {
-                return BadRequest("Le terme de recherche ne peut pas être vide.");
-            }
-
             try
             {
+                if (string.IsNullOrWhiteSpace(searchTerm))
+                {
+                    var allAdvertisements = await _context.Advertisements.ToListAsync();
+                    return Ok(allAdvertisements);
+                }
+
                 var advertisements = await _context.Advertisements
                     .Where(a => a.Name.Contains(searchTerm)) // Assurez-vous que "Name" est une propriété de votre modèle
                     .ToListAsync();
-
-                if (advertisements.Count == 0)
-                {
-                    return NotFound("Aucune annonce trouvée pour le terme de recherche spécifié.");
-                }
 
                 return Ok(advertisements);
             }
