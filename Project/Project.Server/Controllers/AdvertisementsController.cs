@@ -26,6 +26,8 @@ namespace Project.Server.Controllers
             try
             {
                 var advertisements = await _context.Advertisements.ToListAsync();
+
+
                 return Ok(advertisements);
             }
             catch (Exception ex)

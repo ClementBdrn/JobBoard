@@ -101,6 +101,35 @@ namespace Project.Server.Controllers
             }
         }
 
+        [HttpGet("items")]
+        public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> GetFavorites([FromQuery] int userId)
+        {
+            try
+            {
+                var advertisementsLikeIds = await _context.Advertisements_Like
+                    .Where(al => al.IdPeople == userId)
+                    .Select(al => al.IdAdvertisements)
+                    .ToListAsync();
+
+                if (!advertisementsLikeIds.Any())
+                {
+                    return Ok(new List<AdvertisementsModel>());
+                }
+
+                var advertisements = await _context.Advertisements
+                    .Where(ad => advertisementsLikeIds.Contains(ad.Id))
+                    .OrderByDescending(ad => ad.DatePost)
+                    .ToListAsync();
+
+                return Ok(advertisements);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur : {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
 
         [HttpDelete("{idAdvertisements}")]
         public async Task<ActionResult> DeleteFavorite(int idAdvertisements, int idPeople)

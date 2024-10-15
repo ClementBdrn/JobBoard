@@ -4,9 +4,8 @@ import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 export default function JobList({ idPeople, onAdSelect }) {
-    // État pour les annonces
+
     const [advertisements, setAdvertisements] = useState([]);
-    // État pour les likes
     const [likedItems, setLikedItems] = useState([]);
 
     // Fonction pour gérer le clic sur le cœur
@@ -16,6 +15,7 @@ export default function JobList({ idPeople, onAdSelect }) {
         setLikedItems(updatedLikes);
 
         const ad = advertisements[index];
+        console.log(ad);
 
         if (!updatedLikes[index]) {
             await handleDeleteFavorite(ad.id, idPeople);
@@ -27,7 +27,6 @@ export default function JobList({ idPeople, onAdSelect }) {
 
     const handleAddFavorite = async (adId, userId) => {
         try {
-            console.log("Données envoyées :", { idPeople: idPeople, idAdvertisements: ad.id });
             const response = await fetch('https://localhost:7007/api/favorites', {
                 method: 'POST',
                 headers: {
@@ -35,7 +34,7 @@ export default function JobList({ idPeople, onAdSelect }) {
                 },
                 body: JSON.stringify({
                     idPeople: idPeople,
-                    idAdvertisements: ad.id,
+                    idAdvertisements: adId,
                 }),
             });
 
@@ -69,16 +68,34 @@ export default function JobList({ idPeople, onAdSelect }) {
         }
     };
 
+    const fetchLikedItems = async () => {
+        try {
+            const response = await fetch(`https://localhost:7007/api/favorites/items?userId=${idPeople}`);
+            if (response.ok) {
+                const likedAds = await response.json();
+                return likedAds.map(ad => ad.id);
+            }
+            return [];
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des favoris :", error);
+            return [];
+        }
+    };
+
     // Récupérer les annonces depuis l'API
     useEffect(() => {
         const fetchAdvertisements = async () => {
             try {
                 const response = await fetch('https://localhost:7007/api/advertisements');
-
                 if (response.ok) {
                     const data = await response.json();
                     setAdvertisements(data);
-                    setLikedItems(Array(data.length).fill(false));
+
+                    // Récupère les annonces likées et met à jour l'état
+                    const likedAdIds = await fetchLikedItems();
+                    const updatedLikes = data.map(ad => likedAdIds.includes(ad.id));
+                    setLikedItems(updatedLikes); // Marque les annonces déjà likées avec true
                 }
             }
             catch (error) {
@@ -87,7 +104,7 @@ export default function JobList({ idPeople, onAdSelect }) {
         };
 
         fetchAdvertisements();
-    }, []);
+    }, [idPeople]); 
 
     return (
         <Grid
