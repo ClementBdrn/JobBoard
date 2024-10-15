@@ -57,7 +57,7 @@ namespace Project.Server.Controllers
                 }
                 else
                 {
-                    idPeople = user.Id;
+                    idPeople = user.IdPeople;
                     if (VerifyPassword(user.Password, password) != PasswordVerificationResult.Success)
                     {
                         listError.Add("Le mot de passe n'est pas valide.");

@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AppContext } from '../context/AppContext.jsx';
 
 export default function SignUpForm() {
+    const { idPeople } = useContext(AppContext);
+    const { setIdPeople } = useContext(AppContext);
+
+    if (idPeople != 0) {
+        navigate('/home');
+    }
+
     const navigate = useNavigate();
 
     //Nom Complet
@@ -77,10 +85,10 @@ export default function SignUpForm() {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    const idPeople = data.idPeople;
+                    setIdPeople(data.idPeople);
 
                     // Redirection vers la page d'accueil
-                    navigate('/home', { state: {idPeople}});
+                    navigate('/home');
                 }
                 else {
                     const errorData = await response.json();

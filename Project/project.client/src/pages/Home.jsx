@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Box, Typography, Grid, Menu, MenuItem } from '@mui/material';
 import { Person } from '@mui/icons-material';
@@ -7,12 +7,13 @@ import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
 import { useNavigate } from 'react-router-dom';
 import { useVerificationToken } from '../hooks/useVerificationToken';
+import { AppContext } from '../context/AppContext.jsx';
 
 export default function Home() {
+    const { idPeople } = useContext(AppContext);
+
     useVerificationToken();
 
-    const location = useLocation();
-    const { idPeople, people } = location.state || {};
     const navigate = useNavigate();
 
     const [selectedAd, setSelectedAd] = useState(null);
@@ -50,6 +51,7 @@ export default function Home() {
         navigate('/admin');
     }
 
+    const { setIdPeople } = useContext(AppContext);
     const handleNavSignIn = () => {
         const disconnect = async () => {
             try {
@@ -62,6 +64,7 @@ export default function Home() {
                 });
 
                 if (response.ok) {
+                    setIdPeople(0);
 
                     // Redirection vers la page d'accueil
                     navigate('/');

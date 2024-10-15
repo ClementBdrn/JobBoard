@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -15,6 +16,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import { NavLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import { AppContext } from '../context/AppContext.jsx';
 
 const drawerWidth = 240;
 
@@ -69,37 +71,20 @@ export default function SideNav() {
     const [open, setOpen] = React.useState(true);
 
     let isAdmin = false;
-    const token = localStorage.getItem('token');
-    if (token) {
-        const checkIsAdmin = async () => {
-            try {
-                const response = await fetch("https://localhost:7007/api/SignIn/isAdmin", {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': "application/json",
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (response.ok) {
-                    isAdmin = true;
-                }
-            }
-            catch {
-                console.log("error token");
-            }
-        };
-
-        checkIsAdmin();
+    const { idPeople } = useContext(AppContext);
+    if (idPeople == 1023) {
+        isAdmin = true;
     }
-
 
     const navLinks = [
         { path: '/home', label: 'Home' },
         { path: '/favorite', label: 'Favorite' },
         { path: '/apply', label: 'Apply' },
-        { path: '/admin', label: 'Admin' },
     ];
+
+    if (isAdmin) {
+        navLinks.push({ path: '/admin', label: 'Admin' });
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>

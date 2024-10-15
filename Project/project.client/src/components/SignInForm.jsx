@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Box, TextField, Button, Typography, Container, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useVerificationTokenSignIn } from '../hooks/useVerificationTokenSignIn';
+import { AppContext } from '../context/AppContext.jsx';
 
 export default function SignInForm() {
+    const { idPeople, setIdPeople } = useContext(AppContext);
+
+    if (idPeople != 0) {
+        navigate('/home');
+    }
     useVerificationTokenSignIn();
 
     const navigate = useNavigate();
@@ -46,13 +52,13 @@ export default function SignInForm() {
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    const idPeople = data.idPeople;
+                    setIdPeople(data.idPeople);
                     const token = data.token;
 
                     localStorage.setItem('token', token);
 
                     // Redirection vers la page d'accueil
-                    navigate('/home', { state: { idPeople }});
+                    navigate('/home');
                 }
                 else {
                     const errorData = await response.json();
