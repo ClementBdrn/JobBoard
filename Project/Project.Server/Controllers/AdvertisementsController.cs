@@ -34,8 +34,11 @@ namespace Project.Server.Controllers
                                                 ad.Id,
                                                 ad.Name,
                                                 ad.Place,
+                                                ad.Contract,
                                                 ad.Description,
                                                 ad.DatePost,
+                                                ad.Skills,
+                                                ad.Salary,
                                                 companyName = c != null ? c.Name : null
                                             })
                                             //.OrderByDescending(ad => ad.

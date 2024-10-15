@@ -101,6 +101,7 @@ namespace Project.Server.Controllers
             }
         }
 
+
         [HttpGet("items")]
         public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> GetFavorites([FromQuery] int userId)
         {
@@ -157,6 +158,7 @@ namespace Project.Server.Controllers
                 return StatusCode(500, "Erreur lors de la suppression du favori.");
             }
         }
+
 
         [HttpDelete("page/{idAdvertisements}")]
         public async Task<ActionResult> DeleteFavoriteFromPage(int idAdvertisements)

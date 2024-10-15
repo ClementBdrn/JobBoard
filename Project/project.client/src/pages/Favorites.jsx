@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import FavoritesList from '../components/FavoritesList';
 import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
 import { Box, Grid } from '@mui/material';
 import { useVerificationToken } from '../hooks/useVerificationToken';
+import { AppContext } from '../context/AppContext.jsx';
 
 export default function Favorites() {
+
     useVerificationToken();
+    const { idPeople } = useContext(AppContext);
+    console.log(idPeople);
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [allJobs, setAllJobs] = useState('');
     const [selectedAd, setSelectedAd] = useState(null);
@@ -40,13 +44,12 @@ export default function Favorites() {
     useEffect(() => {
         const fetchFavorites = async () => {
             try {
-                const response = await fetch('https://localhost:7007/api/favorites');
+                const response = await fetch(`https://localhost:7007/api/favorites/items?userId=${idPeople}`);
 
                 if (response.ok) {
                     const data = await response.json();
                     setFavoriteItems(data);
 
-                    // Initialiser l'�tat likedItems avec les favoris actuels
                     const initialLikes = data.map(() => true);
                     setLikedItems(initialLikes);
                 }

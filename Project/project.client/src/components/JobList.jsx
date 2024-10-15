@@ -80,7 +80,8 @@ export default function JobList({ idPeople, onAdSelect }) {
                 return likedAds.map(ad => ad.id);
             }
             return [];
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Erreur lors de la r&#233;cup&#233;ration des favoris :", error);
             return [];
         }
