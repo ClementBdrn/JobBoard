@@ -25,7 +25,21 @@ namespace Project.Server.Controllers
         {
             try
             {
-                var advertisements = await _context.Advertisements.ToListAsync();
+                var advertisements = await (from ad in _context.Advertisements
+                                            join company in _context.Companies
+                                            on ad.idCompanies equals company.Id into adCompany
+                                            from c in adCompany.DefaultIfEmpty()
+                                            select new
+                                            {
+                                                ad.Id,
+                                                ad.Name,
+                                                ad.Place,
+                                                ad.Description,
+                                                ad.DatePost,
+                                                companyName = c != null ? c.Name : null
+                                            })
+                                            //.OrderByDescending(ad => ad.
+                                            .ToListAsync();
 
 
                 return Ok(advertisements);

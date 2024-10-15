@@ -8,19 +8,25 @@ export default function JobList({ idPeople, onAdSelect }) {
     const [advertisements, setAdvertisements] = useState([]);
     const [likedItems, setLikedItems] = useState([]);
 
-    // Fonction pour gérer le clic sur le cœur
+    const calculateDaysAgo = (dateString) => {
+        const postDate = new Date(dateString);
+        const today = new Date();
+        const timeDiff = today - postDate;
+        const daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        return daysDiff;
+    };
+
+    // Fonction pour g&#233;rer le clic sur le cœur
     const handleHeartClick = async (index) => {
         const updatedLikes = [...likedItems];
         updatedLikes[index] = !updatedLikes[index];
         setLikedItems(updatedLikes);
 
         const ad = advertisements[index];
-        console.log(ad);
 
         if (!updatedLikes[index]) {
             await handleDeleteFavorite(ad.id, idPeople);
-        }
-        else {
+        } else {
             await handleAddFavorite(ad.id, idPeople);
         }
     };
@@ -42,18 +48,15 @@ export default function JobList({ idPeople, onAdSelect }) {
                 throw new Error('Erreur lors de l\'ajout aux favoris');
             }
 
-            // Optionnel : Traitez la réponse si nécessaire
             const result = await response.json();
-            console.log('Favori ajouté :', result);
-        }
-        catch (error) {
+            console.log('Favori ajout&#233; :', result);
+        } catch (error) {
             console.error("Erreur lors de l'ajout aux favoris :", error);
         }
     }
 
     const handleDeleteFavorite = async (adId, userId) => {
         try {
-            console.log('`https://localhost:7007/api/favorites/${adId}?idPeople=${userId}');
             const response = await fetch(`https://localhost:7007/api/favorites/${adId}?idPeople=${userId}`, {
                 method: 'DELETE',
             });
@@ -63,9 +66,8 @@ export default function JobList({ idPeople, onAdSelect }) {
             }
 
             const result = await response.json();
-            console.log('Favori supprimé :', result);
-        }
-        catch (error) {
+            console.log('Favori supprim&#233; :', result);
+        } catch (error) {
             console.error("Erreur lors de la suppression des favoris :", error);
         }
     };
@@ -78,14 +80,12 @@ export default function JobList({ idPeople, onAdSelect }) {
                 return likedAds.map(ad => ad.id);
             }
             return [];
-        }
-        catch (error) {
-            console.error("Erreur lors de la récupération des favoris :", error);
+        } catch (error) {
+            console.error("Erreur lors de la r&#233;cup&#233;ration des favoris :", error);
             return [];
         }
     };
 
-    // Récupérer les annonces depuis l'API
     useEffect(() => {
         const fetchAdvertisements = async () => {
             try {
@@ -94,19 +94,17 @@ export default function JobList({ idPeople, onAdSelect }) {
                     const data = await response.json();
                     setAdvertisements(data);
 
-                    // Récupère les annonces likées et met à jour l'état
                     const likedAdIds = await fetchLikedItems();
                     const updatedLikes = data.map(ad => likedAdIds.includes(ad.id));
-                    setLikedItems(updatedLikes); // Marque les annonces déjà likées avec true
+                    setLikedItems(updatedLikes);
                 }
-            }
-            catch (error) {
-                console.error("Erreur lors de la récupération des annonces :", error);
+            } catch (error) {
+                console.error("Erreur lors de la r&#233;cup&#233;ration des annonces :", error);
             }
         };
 
         fetchAdvertisements();
-    }, [idPeople]); 
+    }, [idPeople]);
 
     return (
         <Grid
@@ -136,11 +134,10 @@ export default function JobList({ idPeople, onAdSelect }) {
             }}
         >
             <Box>
-                {/* Affichage dynamique des annonces récupérées */}
                 {advertisements.length > 0 ? (
                     advertisements.map((ad, index) => (
                         <Card
-                            key={ad.id} // Utilisez un identifiant unique
+                            key={ad.id}
                             sx={{
                                 backgroundColor: 'black',
                                 border: '1px solid #AC5FE9',
@@ -152,23 +149,16 @@ export default function JobList({ idPeople, onAdSelect }) {
                                 <CardContent>
                                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <Typography variant="h5" fontWeight="bold" sx={{ color: 'white !important' }}>
-                                            {ad.name} {/* Récupérer dynamiquement le titre */}
+                                            {ad.name}
                                         </Typography>
 
-                                        {/* Bouton cœur */}
                                         <IconButton
                                             onClick={() => handleHeartClick(index)}
                                             sx={{
                                                 padding: 0,
-                                                '&:focus': {
-                                                    outline: 'none',
-                                                },
-                                                '&:active': {
-                                                    outline: 'none',
-                                                },
-                                                '& .MuiTouchRipple-root': {
-                                                    display: 'none',
-                                                },
+                                                '&:focus': { outline: 'none' },
+                                                '&:active': { outline: 'none' },
+                                                '& .MuiTouchRipple-root': { display: 'none' },
                                             }}
                                             disableRipple
                                             disableFocusRipple
@@ -181,13 +171,13 @@ export default function JobList({ idPeople, onAdSelect }) {
                                         </IconButton>
                                     </Box>
                                     <Typography variant="body2" color="gray">
-                                        {ad.company} {ad.place} {/* Récupérer dynamiquement l'entreprise et l'emplacement */}
+                                        {ad.company} {ad.place}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        {ad.description} {/* Récupérer dynamiquement la description */}
+                                        {ad.description}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        Post&eacute; il y a {ad.postedDate} jours {/* Récupérer dynamiquement la date de publication */}
+                                        Post&#233; il y a {calculateDaysAgo(ad.datePost)} jours
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

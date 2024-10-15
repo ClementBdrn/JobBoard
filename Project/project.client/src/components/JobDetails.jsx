@@ -66,7 +66,7 @@ export default function JobDetails({ selectedAd }) {
                     </IconButton>
                 </Box>
                 <Typography variant="body2" color="gray">
-                    {selectedAd.idCompanies}
+                    {selectedAd.companyName}
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
                     Type de poste: {selectedAd.contract} {/* Remplacez par le type dynamique */}
