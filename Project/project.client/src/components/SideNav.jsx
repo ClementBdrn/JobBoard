@@ -68,6 +68,32 @@ export default function SideNav() {
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
 
+    let isAdmin = false;
+    const token = localStorage.getItem('token');
+    if (token) {
+        const checkIsAdmin = async () => {
+            try {
+                const response = await fetch("https://localhost:7007/api/SignIn/isAdmin", {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': "application/json",
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    isAdmin = true;
+                }
+            }
+            catch {
+                console.log("error token");
+            }
+        };
+
+        checkIsAdmin();
+    }
+
+
     const navLinks = [
         { path: '/home', label: 'Home' },
         { path: '/favorite', label: 'Favorite' },

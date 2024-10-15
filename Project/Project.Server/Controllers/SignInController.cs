@@ -115,7 +115,7 @@ namespace Project.Server.Controllers
 
         private async Task<int> VerifyJwtToken(string token) { 
 
-            var sqlCount = "SELECT * FROM Credentials WHERE token = '" + token.Trim() + "'";
+            var sqlCount = "SELECT TOP 1 * FROM Credentials WHERE token = '" + token.Trim() + "'";
 
             int idPeople = 0;
             CredentialsModel user = null;
