@@ -107,7 +107,7 @@ export default function Home() {
             </Box>
 
             <Grid container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', marginTop: '30px', padding: '0 40px 0 40px' }}>
-                <JobList idPeople={idPeople} onAdSelect={setSelectedAd} />
+                <JobList onAdSelect={setSelectedAd} />
                 <JobDetails selectedAd={selectedAd} />
             </Grid>
         </Box>

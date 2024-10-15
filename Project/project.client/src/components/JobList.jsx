@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box, Grid, Card, CardContent, CardActionArea, Typography, IconButton } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../context/AppContext.jsx';
 
-export default function JobList({ idPeople, onAdSelect }) {
+export default function JobList({ onAdSelect }) {
 
+    const { idPeople } = useContext(AppContext);
     const [advertisements, setAdvertisements] = useState([]);
     const [likedItems, setLikedItems] = useState([]);
 
