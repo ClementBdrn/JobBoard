@@ -19,7 +19,6 @@ export default function Favorites() {
 
         updatedLikes[index] = !updatedLikes[index];
         setLikedItems(updatedLikes);
-        console.log(id);
 
         if (!updatedLikes[index]) {
             try {
@@ -46,7 +45,6 @@ export default function Favorites() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
                     setFavoriteItems(data);
 
                     // Initialiser l'�tat likedItems avec les favoris actuels

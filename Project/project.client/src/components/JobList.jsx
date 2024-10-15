@@ -53,6 +53,7 @@ export default function JobList({ idPeople, onAdSelect }) {
 
     const handleDeleteFavorite = async (adId, userId) => {
         try {
+            console.log('`https://localhost:7007/api/favorites/${adId}?idPeople=${userId}');
             const response = await fetch(`https://localhost:7007/api/favorites/${adId}?idPeople=${userId}`, {
                 method: 'DELETE',
             });
@@ -63,7 +64,8 @@ export default function JobList({ idPeople, onAdSelect }) {
 
             const result = await response.json();
             console.log('Favori supprimé :', result);
-        } catch (error) {
+        }
+        catch (error) {
             console.error("Erreur lors de la suppression des favoris :", error);
         }
     };
