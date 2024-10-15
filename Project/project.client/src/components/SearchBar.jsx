@@ -27,6 +27,13 @@ export default function SearchBar({ onSearch }) {
         }
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            submitSearch();
+        }
+    };
+
     return (
         <Box sx={{ margin: 'auto', width: '60%' }}>
             <Box
@@ -64,6 +71,7 @@ export default function SearchBar({ onSearch }) {
                     }}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    onKeyDown={handleKeyDown}
                 />
                 <Button
                     variant="contained"
