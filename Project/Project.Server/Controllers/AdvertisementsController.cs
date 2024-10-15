@@ -101,7 +101,7 @@ namespace Project.Server.Controllers
             _context.Advertisements.Add(advertisement);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetAdvertisement), new { id = advertisement.Id }, advertisement);
+            return Ok(new { id = advertisement.Id });
         }
 
         // PUT: api/advertisements/5
@@ -144,8 +144,21 @@ namespace Project.Server.Controllers
                 return NotFound();
             }
 
+            var advertisementLikes = _context.Advertisements_Like.Where(like => like.IdAdvertisements == id);
+
+            if (advertisementLikes.Any())
+            {
+                _context.Advertisements_Like.RemoveRange(advertisementLikes);
+                await _context.SaveChangesAsync();
+            }
+
             _context.Advertisements.Remove(advertisement);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) { var test = ex.Message; }
+
 
             return NoContent();
         }
