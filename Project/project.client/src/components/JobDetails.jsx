@@ -13,7 +13,7 @@ export default function JobDetails({ selectedAd }) {
         return (
             <Grid item xs={6} sx={{ padding: 3 }}>
                 <Typography variant="h6" sx={{ color: 'gray' }}>
-                    Veuillez s&eacute;lectionner une annonce pour voir les détails.
+                    Veuillez s&#233;lectionner une annonce pour voir les d&#233;tails.
                 </Typography>
             </Grid>
         );
@@ -84,13 +84,13 @@ export default function JobDetails({ selectedAd }) {
                     Comp&eacute;tences requises:
                 </Typography>
                 <Typography variant="body2" color="gray" sx={{ marginTop: 2 }}>
-                    {selectedAd.skills} {/* Remplacez par les compétences dynamiques */}
+                    {selectedAd.skills} {/* Remplacez par les comp&#233;tences dynamiques */}
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
                     Salaire:
                 </Typography>
                 <Typography variant="body2" color="gray" sx={{ marginTop: 2 }}>
-                    {selectedAd.salary} {/* Remplacez par les compétences dynamiques */}
+                    {selectedAd.salary} {/* Remplacez par les compï¿½tences dynamiques */}
                 </Typography>
             </Box>
         </Grid>
