@@ -157,5 +157,32 @@ namespace Project.Server.Controllers
                 return StatusCode(500, "Erreur lors de la suppression du favori.");
             }
         }
+
+        [HttpDelete("page/{idAdvertisements}")]
+        public async Task<ActionResult> DeleteFavoriteFromPage(int idAdvertisements)
+        {
+            try
+            {
+                // Chercher l'entrée dans la table des likes avec l'IdAdvertisements et IdPeople
+                var favorite = await _context.Advertisements_Like
+                    .FirstOrDefaultAsync(al => al.IdAdvertisements == idAdvertisements);
+
+                if (favorite == null)
+                {
+                    return NotFound("Le favori n'a pas été trouvé.");
+                }
+
+                // Supprimer le favori
+                _context.Advertisements_Like.Remove(favorite);
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Favori supprimé avec succès." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erreur : {ex.Message}");
+                return StatusCode(500, "Erreur lors de la suppression du favori.");
+            }
+        }
     }
 }

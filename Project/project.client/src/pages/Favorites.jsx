@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import FavoritesList from '../components/FavoritesList';
 import JobList from '../components/JobList';
 import JobDetails from '../components/JobDetails';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useVerificationToken } from '../hooks/useVerificationToken';
 
 export default function Favorites() {
     useVerificationToken();
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [allJobs, setAllJobs] = useState('');
-
-    // �tat pour les likes
+    const [selectedAd, setSelectedAd] = useState(null);
     const [likedItems, setLikedItems] = useState([]);
 
     const handleHeartClick = async (id) => {
@@ -60,9 +59,13 @@ export default function Favorites() {
     }, []);
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-            <FavoritesList favoriteItems={favoriteItems} handleHeartClick={handleHeartClick} likedItems={likedItems} />
-            <JobDetails />
+        <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', width: '83vw', backgroundColor: '#1e1E1E', color: 'white', padding: '20px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                <Grid container sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between', marginTop: '30px', padding: '0 40px 0 40px' }}>
+                    <FavoritesList favoriteItems={favoriteItems} handleHeartClick={handleHeartClick} likedItems={likedItems} onAdSelect={setSelectedAd} />
+                    <JobDetails selectedAd={selectedAd} />
+                </Grid>
+            </Box>
         </Box>
     );
 }
