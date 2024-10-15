@@ -10,5 +10,6 @@
         public string? Skills { get; set; }
         public DateTime? DatePost { get; set; }
         public int idCompanies { get; set; }
+        public string? Salary { get; set; }
     }
 }

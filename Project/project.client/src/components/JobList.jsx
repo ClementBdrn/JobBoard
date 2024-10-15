@@ -168,7 +168,7 @@ export default function JobList({ idPeople, onAdSelect }) {
                                         {ad.description} {/* Récupérer dynamiquement la description */}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        Posté il y a {ad.postedDate} jours {/* Récupérer dynamiquement la date de publication */}
+                                        Post&eacute; il y a {ad.postedDate} jours {/* Récupérer dynamiquement la date de publication */}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

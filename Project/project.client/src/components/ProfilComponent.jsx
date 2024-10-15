@@ -9,19 +9,47 @@ export default function UserProfileStatic() {
 
     if (!user) {
         return (
-            <Box sx={{ backgroundColor: 'black', color: 'white', padding: '2rem', borderRadius: '10px' }}>
+            <Box
+                sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    padding: '2rem',
+                    borderRadius: '10px',
+                    height: '100vh',
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                }}
+            >
                 <Typography variant="h4" gutterBottom>Les données de l'utilisateur sont introuvables.</Typography>
             </Box>
         );
     }
 
     return (
-        <Box sx={{ backgroundColor: 'black', color: 'white', padding: '2rem', borderRadius: '10px' }}>
-            <Typography variant="h4" gutterBottom>Profil de {user.firstName}</Typography>
-
-            <Card sx={{ backgroundColor: 'black', color: 'white', mt: 2, border: '1px solid #AC5FE9' }}>
+        <Box sx={{
+            color: 'white',
+            padding: '2rem',
+            borderRadius: '10px',
+            height: '100vh',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginLeft: '20%',
+            }}
+        >
+            <Card
+                sx={{
+                    backgroundColor: 'black',
+                    color: 'white',
+                    mt: 2,
+                    border: '4px solid #AC5FE9',
+                }}
+            >
                 <CardContent>
-                    <Grid container spacing={2}>
+                    <Typography variant="h4" gutterBottom> Profil de {user.firstName}</Typography>
+
+                    <Grid container spacing={5}>
                         {/* Prénom */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h6">Pr&#233;nom</Typography>

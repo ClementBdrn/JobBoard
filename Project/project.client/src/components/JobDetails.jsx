@@ -13,7 +13,7 @@ export default function JobDetails({ selectedAd }) {
         return (
             <Grid item xs={6} sx={{ padding: 3 }}>
                 <Typography variant="h6" sx={{ color: 'gray' }}>
-                    Veuillez sélectionner une annonce pour voir les détails.
+                    Veuillez s&eacute;lectionner une annonce pour voir les détails.
                 </Typography>
             </Grid>
         );
@@ -72,7 +72,7 @@ export default function JobDetails({ selectedAd }) {
                     Type de poste: {selectedAd.contract} {/* Remplacez par le type dynamique */}
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 2 }}>
-                    Situé sur: {selectedAd.place} {/* Remplacez par l'emplacement dynamique */}
+                    Situ&eacute; sur: {selectedAd.place} {/* Remplacez par l'emplacement dynamique */}
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
                     Description:
@@ -81,10 +81,16 @@ export default function JobDetails({ selectedAd }) {
                     {selectedAd.description} {/* Affichage dynamique de la description */}
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
-                    Compétences requises:
+                    Comp&eacute;tences requises:
                 </Typography>
                 <Typography variant="body2" color="gray" sx={{ marginTop: 2 }}>
                     {selectedAd.skills} {/* Remplacez par les compétences dynamiques */}
+                </Typography>
+                <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
+                    Salaire:
+                </Typography>
+                <Typography variant="body2" color="gray" sx={{ marginTop: 2 }}>
+                    {selectedAd.salary} {/* Remplacez par les compétences dynamiques */}
                 </Typography>
             </Box>
         </Grid>
