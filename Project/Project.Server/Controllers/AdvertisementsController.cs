@@ -39,6 +39,7 @@ namespace Project.Server.Controllers
                                                 ad.DatePost,
                                                 ad.Skills,
                                                 ad.Salary,
+                                                ad.idCompanies,
                                                 companyName = c != null ? c.Name : null
                                             })
                                             //.OrderByDescending(ad => ad.

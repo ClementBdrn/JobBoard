@@ -118,8 +118,14 @@ export default function AdminStatic() {
 
     // Remplir le formulaire avec les données du job sélectionné pour modification
     const handleEditJob = (job) => {
-        setNewJob({ id: job.id, title: job.name, company: job.company, location: job.place, description: job.description, salaire: job.salary, skills: job.skills });
+        setNewJob({ id: job.id, title: job.name, companyId: job.idCompanies, location: job.place, description: job.description, salaire: job.salary, skills: job.skills, contrat: job.contract });
         setIsEditing(true);
+    };
+
+    // Fonction pour annuler la modification
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setNewJob({ id: null, title: '', companyId: '', location: '', description: '', salaire: '', contrat: '', skills: '' });
     };
 
     // Fonction pour supprimer un job
@@ -146,7 +152,7 @@ export default function AdminStatic() {
             </Typography>
 
             {/* Formulaire pour ajouter un job */}
-            <Box component="form" onSubmit={handleAddJob} sx={{ mt: 3 }}>
+            <Box component="form" onSubmit={handleAddJob} sx={{ mt: 3, width: '100%', maxWidth: '100vw', display: 'flex', flexDirection: 'column' }}>
                 <Typography variant="h6">Ajouter un Job</Typography>
                 <TextField
                     label="Titre du job"
@@ -244,13 +250,24 @@ export default function AdminStatic() {
                     onChange={(e) => setNewJob({ ...newJob, salaire: e.target.value })}
                     required
                 />
-                <Button
-                    variant="contained"
-                    type="submit"
-                    sx={{ mt: 2, backgroundColor: '#7209B7', color: 'white' }}
-                >
-                    {isEditing ? 'Modifier' : 'Ajouter'}
-                </Button>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-start', marginTop: 2 }}>
+                    <Button
+                        variant="contained"
+                        type="submit"
+                        sx={{ backgroundColor: '#7209B7', color: 'white' }}
+                    >
+                        {isEditing ? 'Modifier' : 'Ajouter'}
+                    </Button>
+                    {isEditing && (
+                        <Button
+                            variant="contained"
+                            sx={{ backgroundColor: '#7209B7', color: 'white', marginLeft: 2 }}
+                            onClick={handleCancelEdit}
+                        >
+                            Annuler
+                        </Button>
+                    )}
+                </Box>
             </Box>
 
             {/* Liste des jobs */}
