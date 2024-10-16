@@ -5,6 +5,7 @@ using Project.Server.Data;
 using System;
 using Microsoft.EntityFrameworkCore;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Data.SqlClient;
 
 namespace Project.Server.Controllers
 {
@@ -19,21 +20,30 @@ namespace Project.Server.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdvertisementsModel>>> GetAdvertisements()
+
+        [HttpPost("getInfos")]
+        public async Task<IActionResult> GetUserInfo([FromBody] int idPeople)
         {
             try
             {
-                var advertisements = await _context.Advertisements.ToListAsync();
-                return Ok(advertisements);
+                var sqlQuery = "SELECT * FROM People WHERE id = @idPeople";
+                var user = await _context.People
+                    .FromSqlRaw(sqlQuery, new SqlParameter("@idPeople", idPeople))
+                    .FirstOrDefaultAsync();
+
+                if (user != null)
+                {
+                    return Ok(user);
+                }
+
+                return NotFound("Utilisateur non trouvé.");
             }
             catch (Exception ex)
             {
-                // Enregistre l'erreur dans les logs ou la console
-                Console.WriteLine($"Erreur : {ex.Message}");
-                return StatusCode(500, "Internal server error");
+                return StatusCode(500, "Erreur interne du serveur : " + ex.Message);
             }
         }
+
 
         [HttpPost]
         public async Task<IActionResult> PostApply([FromBody] ApplyFormModel apply)

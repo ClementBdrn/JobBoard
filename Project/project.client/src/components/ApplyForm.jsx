@@ -1,33 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { AppContext } from '../context/AppContext.jsx';
 
-export default function ApplyForm({people}) {
+export default function ApplyForm() {
     const navigate = useNavigate();
+    const { idPeople } = useContext(AppContext);
 
     // &#233;tat pour les informations de formulaire
-    const [firstname, setFirstname] = useState("");
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
+    const [user, setUser] = useState({ firstname: '', name: '', phone: '', email: '', address: '' });
     const [selectedCV, setSelectedCV] = useState('');
     const [selectedLM, setSelectedLM] = useState('');
-    const [address, setAddress] = useState('');
+    const [loading, setLoading] = useState(true); // &#233;tat pour le chargement
+
+    // Fonction pour r&#233;cup&#233;rer les informations de l'utilisateur
+    const getInfos = async () => {
+        try {
+            const response = await fetch("https://localhost:7007/api/Profil", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idPeople }),
+            });
+            if (response.ok) {
+                const userData = await response.json();
+                console.log(userData);
+                console.log(userData.firstname);
+                setUser({
+                    firstname: userData.firstName,
+                    name: userData.lastName,
+                    phone: userData.phone,
+                    email: userData.email,
+                    address: '',
+                });
+                console.log(user);
+            }
+        }
+        catch (error) {
+            console.log("Erreur lors du chargement du profil.");
+        }
+        finally {
+            setLoading(false); // Arrête le chargement, même si une erreur se produit
+        }
+    };
+
+    // Appel de getInfos lors du premier rendu du composant
+    useEffect(() => {
+        getInfos();
+    }, [idPeople]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         let isValidate = true;
 
-        if (selectedCV.length == 0) {
-            toast.error("Veuiller d&#233;poser votre CV.");
-            isValidate = false
+        if (!selectedCV) {
+            toast.error("Veuillez d&#233;poser votre CV.");
+            isValidate = false;
         }
 
-        if (selectedLM.length == 0) {
-            toast.error("Veuiller d&#233;poser votre lettre de motivation.");
-            isValidate = false
+        if (!selectedLM) {
+            toast.error("Veuillez d&#233;poser votre lettre de motivation.");
+            isValidate = false;
         }
 
         if (isValidate) {
@@ -37,23 +73,19 @@ export default function ApplyForm({people}) {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ firstname, name, phone, email, address, selectedCV, selectedLM }),
+                    body: JSON.stringify({ ...user, selectedCV, selectedLM }),
                 });
                 if (response.ok) {
                     const data = await response.json();
                     console.log("Donn&#233;es reçues du backend :", data);
-
                     navigate('/home');
-                }
-                else {
+                } else {
                     const errorData = await response.json();
-
                     errorData.errors.forEach((errorMessage) => {
                         toast.error(errorMessage);
                     });
                 }
-            }
-            catch (error) {
+            } catch (error) {
                 console.error("Erreur r&#233;seau :", error);
             }
         }
@@ -62,23 +94,17 @@ export default function ApplyForm({people}) {
     // Gestion des changements dans l'input fichier
     const handleCVChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            setSelectedCV(file.name);
-        }
-        else {
-            setSelectedCV('');
-        }
+        setSelectedCV(file ? file.name : '');
     };
 
     const handleLMChange = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            setSelectedLM(file.name);
-        }
-        else {
-            setSelectedLM('');
-        }
+        setSelectedLM(file ? file.name : '');
     };
+
+    if (loading) {
+        return <Typography>Chargement...</Typography>; // Indicateur de chargement
+    }
 
     return (
         <Box
@@ -88,7 +114,7 @@ export default function ApplyForm({people}) {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: '#1e1E1E', 
+                backgroundColor: '#1e1E1E',
             }}
         >
             <Container
@@ -102,7 +128,7 @@ export default function ApplyForm({people}) {
                 }}
             >
                 <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    SOS CH&#212;MAGE
+                    SOS CHÔMAGE
                 </Typography>
 
                 <Typography variant="h5" align="left" gutterBottom>
@@ -122,7 +148,7 @@ export default function ApplyForm({people}) {
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{
-                            readOnly: true, // Le champ est en lecture seule
+                            readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
                         }}
                         sx={{
@@ -133,8 +159,7 @@ export default function ApplyForm({people}) {
                                 borderColor: '#9b59b6',
                             },
                         }}
-                        value={firstname}
-                        onChange={(e) => setFirstname(e.target.value)}
+                        value={user.firstname}
                     />
                     <TextField
                         fullWidth
@@ -143,7 +168,7 @@ export default function ApplyForm({people}) {
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{
-                            readOnly: true, // Le champ est en lecture seule
+                            readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
                         }}
                         sx={{
@@ -154,8 +179,7 @@ export default function ApplyForm({people}) {
                                 borderColor: '#9b59b6',
                             },
                         }}
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        value={user.name}
                     />
                     <TextField
                         fullWidth
@@ -164,7 +188,7 @@ export default function ApplyForm({people}) {
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{
-                            readOnly: true, // Le champ est en lecture seule
+                            readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
                         }}
                         sx={{
@@ -175,8 +199,7 @@ export default function ApplyForm({people}) {
                                 borderColor: '#9b59b6',
                             },
                         }}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={user.email}
                     />
                     <TextField
                         fullWidth
@@ -185,7 +208,7 @@ export default function ApplyForm({people}) {
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{
-                            readOnly: true, // Le champ est en lecture seule
+                            readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
                         }}
                         sx={{
@@ -196,8 +219,7 @@ export default function ApplyForm({people}) {
                                 borderColor: '#9b59b6',
                             },
                         }}
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
+                        value={user.address}
                     />
                     <TextField
                         fullWidth
@@ -206,7 +228,7 @@ export default function ApplyForm({people}) {
                         margin="normal"
                         InputLabelProps={{ style: { color: 'white' } }}
                         InputProps={{
-                            readOnly: true, // Le champ est en lecture seule
+                            readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
                         }}
                         sx={{
@@ -217,8 +239,7 @@ export default function ApplyForm({people}) {
                                 borderColor: '#9b59b6',
                             },
                         }}
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        value={user.phone}
                     />
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <Button variant="contained" component="label" sx={{ marginRight: 2 }}>

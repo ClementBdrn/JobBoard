@@ -69,10 +69,6 @@ export default function Home() {
         }
     };
 
-    const handleNavSettings = () => {
-        navigate('/admin');
-    };
-
     const handleNavSignIn = () => {
         const disconnect = async () => {
             try {
@@ -119,7 +115,6 @@ export default function Home() {
                     }}
                 >
                     <MenuItem onClick={handleNavProfil} sx={{ color: 'violet' }}>Profil</MenuItem>
-                    <MenuItem onClick={handleNavSettings} sx={{ color: 'violet' }}>Paramètres</MenuItem>
                     <MenuItem onClick={handleNavSignIn} sx={{ color: 'violet' }}>Se déconnecter</MenuItem>
                 </Menu>
             </Box>
