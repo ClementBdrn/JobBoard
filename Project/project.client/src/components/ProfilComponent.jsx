@@ -77,7 +77,7 @@ export default function UserProfileStatic() {
                         {/* Date de naissance */}
                         <Grid item xs={12} md={6}>
                             <Typography variant="h6">Date de naissance</Typography>
-                            <Typography>{user.birthDate}</Typography>
+                            <Typography>{new Date(user.birthDate).toLocaleDateString('fr-FR')}</Typography>
                         </Grid>
 
                         {/* Employé actuellement */}
