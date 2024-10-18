@@ -89,10 +89,10 @@ namespace Project.Server.Controllers
                         _context.Advertisements_Like.RemoveRange(advertisementLikes);
                     }
 
-                    var applies = _context.Applies.Where(apply => apply.IdAdvertisements == advertisement.Id).ToList();
+                    var applies = _context.Apply.Where(apply => apply.IdAdvertisements == advertisement.Id).ToList();
                     if (applies.Any())
                     {
-                        _context.Applies.RemoveRange(applies);
+                        _context.Apply.RemoveRange(applies);
                     }
                 }
 

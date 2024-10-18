@@ -150,8 +150,16 @@ namespace Project.Server.Controllers
             if (advertisementLikes.Any())
             {
                 _context.Advertisements_Like.RemoveRange(advertisementLikes);
-                await _context.SaveChangesAsync();
             }
+
+            var applies = _context.Apply.Where(apply => apply.IdAdvertisements == id);
+
+            if (applies.Any()) 
+            {
+                _context.Apply.RemoveRange(applies);
+            }
+
+            await _context.SaveChangesAsync();
 
             _context.Advertisements.Remove(advertisement);
             try
