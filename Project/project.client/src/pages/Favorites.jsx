@@ -10,7 +10,6 @@ export default function Favorites() {
 
     useVerificationToken();
     const { idPeople } = useContext(AppContext);
-    console.log(idPeople);
     const [favoriteItems, setFavoriteItems] = useState([]);
     const [allJobs, setAllJobs] = useState('');
     const [selectedAd, setSelectedAd] = useState(null);

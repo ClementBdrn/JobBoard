@@ -15,6 +15,8 @@ export default function FavoritesList({ favoriteItems, likedItems, handleHeartCl
                 paddingRight: '10px',
                 marginTop: '0',
                 minWidth: '30vw',
+                paddingLeft: '5px',
+                paddingTop: '5px',
                 '&::-webkit-scrollbar': {
                     width: '8px',
                 },
@@ -41,6 +43,10 @@ export default function FavoritesList({ favoriteItems, likedItems, handleHeartCl
                                 border: '1px solid #AC5FE9',
                                 marginBottom: 2,
                                 borderRadius: '10px',
+                                '&:hover': {
+                                    transform: 'scale(1.02)',
+                                    boxShadow: '0 8px 16px rgba(172, 95, 233, 0.5)',
+                                }
                             }}
                         >
                             <CardActionArea onClick={() => onAdSelect(item)}>
