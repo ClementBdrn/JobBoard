@@ -14,7 +14,7 @@ namespace Project.Server.Data
         public DbSet<PeopleModel> People { get; set; }
         public DbSet<AdvertisementsModel> Advertisements { get; set; }
         public DbSet<Advertisements_LikeModel> Advertisements_Like { get; set; }
-        public DbSet<ApplyFormModel> Applies { get; set; }
+        public DbSet<ApplyFormModel> Apply { get; set; }
         public DbSet<CompaniesModel> Companies { get; set; }
     }
 }
