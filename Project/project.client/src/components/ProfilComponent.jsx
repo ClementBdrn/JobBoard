@@ -4,7 +4,6 @@ import { Typography, Card, CardContent, Grid, Box } from '@mui/material';
 
 export default function UserProfileStatic() {
     const location = useLocation();
-    console.log(location.state);
     const { user } = location.state.user || {};
 
     if (!user) {
