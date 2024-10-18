@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, TextField, Typography, Card, CardContent, CardActions, Grid, Box, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
-export default function AdminStatic() {
+export default function AdminJobs() {
     // State pour les jobs
     const [jobs, setJobs] = useState([]);
 
@@ -148,7 +148,7 @@ export default function AdminStatic() {
     return (
         <Box sx={{ backgroundColor: '#2C2C2E', color: 'white', padding: '2rem', borderRadius: '10px' }}>
             <Typography variant="h4" fontWeight="bold" sx={{ marginLeft: '10px' }}>
-                ADMINISTRATION
+                ADMINISTRATION JOBS
             </Typography>
 
             {/* Formulaire pour ajouter un job */}
@@ -273,7 +273,7 @@ export default function AdminStatic() {
             {/* Liste des jobs */}
             <Box sx={{ mt: 4 }}>
                 <Typography variant="h6">Liste des Jobs</Typography>
-                <Grid container spacing={2} sx={{ mt: 2 }}>
+                <Grid container spacing={2}>
                     {jobs.map((job) => (
                         <Grid item xs={12} md={6} key={job.id}>
                             <Card sx={{ backgroundColor: '#444', color: 'white' }}>

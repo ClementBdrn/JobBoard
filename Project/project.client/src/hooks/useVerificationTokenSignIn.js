@@ -2,9 +2,8 @@ import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext.jsx';
 
-export function useVerificationTokenSignIn() {
+export function useVerificationTokenSignIn(setIsVerifying) {
     const { idPeople, setIdPeople } = useContext(AppContext);
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -31,9 +30,15 @@ export function useVerificationTokenSignIn() {
                     catch {
                         console.log("error token");
                     }
+                    finally {
+                        setIsVerifying(false);
+                    }
                 };
 
                 verifyToken();
+            }
+            else {
+                setIsVerifying(false);
             }
         }  
     }, [navigate]);

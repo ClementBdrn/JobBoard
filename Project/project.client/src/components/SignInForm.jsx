@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Container, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -8,13 +8,19 @@ import { AppContext } from '../context/AppContext.jsx';
 
 export default function SignInForm() {
     const { idPeople, setIdPeople } = useContext(AppContext);
-
-    if (idPeople != 0) {
-        navigate('/home');
-    }
-    useVerificationTokenSignIn();
-
     const navigate = useNavigate();
+
+    // Loader state
+    const [isVerifying, setIsVerifying] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        if (idPeople !== 0) {
+            navigate('/home');
+        }
+    }, [idPeople, navigate])
+
+    useVerificationTokenSignIn(setIsVerifying);
 
     //Email
     const [username, setUsername] = useState("");
@@ -27,9 +33,6 @@ export default function SignInForm() {
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
     };
-
-    // Loader state
-    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -77,6 +80,23 @@ export default function SignInForm() {
     const handleSignUp = () => {
         navigate('/signup');
     };
+
+    if (isVerifying) {
+        return (
+            <Box
+                sx={{
+                    width: '100vw',
+                    height: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: '#1e1E1E',
+                }}
+            >
+                <CircularProgress size={60} sx={{ color: '#9b59b6' }} />
+            </Box>
+        );
+    }
 
     return (
         <Box
