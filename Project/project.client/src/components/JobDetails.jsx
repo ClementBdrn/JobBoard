@@ -58,7 +58,7 @@ export default function JobDetails({ selectedAd }) {
                         '&:hover': { backgroundColor: '#8e44ad' },
                         height: '50px',
                         position: 'relative',
-                        left: '7px'
+                        left: '7px',
                     }}
                     onClick={redirect}
                 >
