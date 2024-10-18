@@ -79,7 +79,6 @@ export default function SideNav() {
     const navLinks = [
         { path: '/home', label: 'Home' },
         { path: '/favorite', label: 'Favorite' },
-        { path: '/apply', label: 'Apply' },
     ];
 
     if (isAdmin) {

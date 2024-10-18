@@ -1,20 +1,31 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Container } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AppContext } from '../context/AppContext.jsx';
 
 export default function ApplyForm() {
     const navigate = useNavigate();
     const { idPeople } = useContext(AppContext);
+    const location = useLocation();
+    const selectedAd = location.state.selectedAd || {};
 
-    // &#233;tat pour les informations de formulaire
-    const [user, setUser] = useState({ firstname: '', name: '', phone: '', email: '', address: '' });
-    const [selectedCV, setSelectedCV] = useState('');
-    const [selectedLM, setSelectedLM] = useState('');
-    const [loading, setLoading] = useState(true); // &#233;tat pour le chargement
+    const [user, setUser] = useState({ firstname: '', name: '', phone: '', email: '' });
+    const [selectedCV, setSelectedCV] = useState(null);
+    const [selectedLM, setSelectedLM] = useState(null);
+    const [cvFileName, setCVFileName] = useState('');
+    const [lmFileName, setLMFileName] = useState('');
+    const [loading, setLoading] = useState(true);
 
-    // Fonction pour r&#233;cup&#233;rer les informations de l'utilisateur
+    function convertFileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = error => reject(error);
+            reader.readAsDataURL(file);
+        });
+    }
+
     const getInfos = async () => {
         try {
             const response = await fetch("https://localhost:7007/api/Profil", {
@@ -26,27 +37,20 @@ export default function ApplyForm() {
             });
             if (response.ok) {
                 const userData = await response.json();
-                console.log(userData);
-                console.log(userData.firstname);
                 setUser({
-                    firstname: userData.firstName,
-                    name: userData.lastName,
-                    phone: userData.phone,
-                    email: userData.email,
-                    address: '',
+                    firstname: userData.user.firstName,
+                    name: userData.user.lastName,
+                    phone: userData.user.phone,
+                    email: userData.user.email,
                 });
-                console.log(user);
             }
-        }
-        catch (error) {
+        } catch (error) {
             console.log("Erreur lors du chargement du profil.");
-        }
-        finally {
-            setLoading(false); // Arrête le chargement, même si une erreur se produit
+        } finally {
+            setLoading(false);
         }
     };
 
-    // Appel de getInfos lors du premier rendu du composant
     useEffect(() => {
         getInfos();
     }, [idPeople]);
@@ -54,56 +58,62 @@ export default function ApplyForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let isValidate = true;
-
-        if (!selectedCV) {
-            toast.error("Veuillez d&#233;poser votre CV.");
-            isValidate = false;
+        if (!selectedCV || !selectedLM) {
+            toast.error("Veuillez d&#233;poser votre CV et lettre de motivation.");
+            return;
         }
 
-        if (!selectedLM) {
-            toast.error("Veuillez d&#233;poser votre lettre de motivation.");
-            isValidate = false;
-        }
+        try {
+            const selectedCVBase64 = await convertFileToBase64(selectedCV);
+            const selectedLMBase64 = await convertFileToBase64(selectedLM);
 
-        if (isValidate) {
-            try {
-                const response = await fetch("https://localhost:7007/api/applyForm", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ ...user, selectedCV, selectedLM }),
+            const payload = {
+                apply: {
+                    idPeople,
+                    nameCV: cvFileName,
+                    nameLM: lmFileName,
+                    fileCV: selectedCVBase64,
+                    fileLM: selectedLMBase64
+                },
+                advertisement: selectedAd
+            };
+
+            const response = await fetch("https://localhost:7007/api/applyForm/sendInfos", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                navigate('/home');
+            } else {
+                const errorData = await response.json();
+                errorData.errors.forEach((errorMessage) => {
+                    toast.error(errorMessage);
                 });
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("Donn&#233;es reçues du backend :", data);
-                    navigate('/home');
-                } else {
-                    const errorData = await response.json();
-                    errorData.errors.forEach((errorMessage) => {
-                        toast.error(errorMessage);
-                    });
-                }
-            } catch (error) {
-                console.error("Erreur r&#233;seau :", error);
             }
+        } catch (error) {
+            console.error("Erreur r&#233;seau :", error);
         }
     };
 
-    // Gestion des changements dans l'input fichier
     const handleCVChange = (event) => {
         const file = event.target.files[0];
-        setSelectedCV(file ? file.name : '');
+        setSelectedCV(file);
+        setCVFileName(file ? file.name : '');
     };
 
     const handleLMChange = (event) => {
         const file = event.target.files[0];
-        setSelectedLM(file ? file.name : '');
+        setSelectedLM(file);
+        setLMFileName(file ? file.name : '');
     };
 
     if (loading) {
-        return <Typography>Chargement...</Typography>; // Indicateur de chargement
+        return <Typography>Chargement...</Typography>;
     }
 
     return (
@@ -128,7 +138,7 @@ export default function ApplyForm() {
                 }}
             >
                 <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    SOS CHÔMAGE
+                    SOS CH&#212;MAGE
                 </Typography>
 
                 <Typography variant="h5" align="left" gutterBottom>
@@ -136,17 +146,16 @@ export default function ApplyForm() {
                 </Typography>
 
                 <Typography variant="body1" align="left" gutterBottom>
-                    Pour l'offre d'emploi: METTRE OFFRE
+                    Pour l'offre d'emploi: {selectedAd.name.toUpperCase()}
                 </Typography>
 
-                {/* Formulaire */}
                 <Box component="form" noValidate autoComplete="off">
                     <TextField
                         fullWidth
                         label="Pr&#233;nom"
                         variant="outlined"
                         margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
                         InputProps={{
                             readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
@@ -166,7 +175,7 @@ export default function ApplyForm() {
                         label="Nom"
                         variant="outlined"
                         margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
                         InputProps={{
                             readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
@@ -186,7 +195,7 @@ export default function ApplyForm() {
                         label="Adresse E-mail"
                         variant="outlined"
                         margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
+                        InputLabelProps={{ style: { color: 'white' }, shrink: true }}
                         InputProps={{
                             readOnly: true,
                             style: { borderColor: '#9b59b6', color: 'white' }
@@ -200,26 +209,6 @@ export default function ApplyForm() {
                             },
                         }}
                         value={user.email}
-                    />
-                    <TextField
-                        fullWidth
-                        label="Ville, r&#233;gion"
-                        variant="outlined"
-                        margin="normal"
-                        InputLabelProps={{ style: { color: 'white' } }}
-                        InputProps={{
-                            readOnly: true,
-                            style: { borderColor: '#9b59b6', color: 'white' }
-                        }}
-                        sx={{
-                            '& fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                            '& .Mui-focused fieldset': {
-                                borderColor: '#9b59b6',
-                            },
-                        }}
-                        value={user.address}
                     />
                     <TextField
                         fullWidth
@@ -247,7 +236,7 @@ export default function ApplyForm() {
                             <input type="file" hidden onChange={handleCVChange} accept="application/pdf" />
                         </Button>
                         <Typography variant="body2" align="left" gutterBottom>
-                            {selectedCV}
+                            {cvFileName}
                         </Typography>
                     </Box>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -256,7 +245,7 @@ export default function ApplyForm() {
                             <input type="file" hidden onChange={handleLMChange} accept="application/pdf" />
                         </Button>
                         <Typography variant="body2" align="left" gutterBottom>
-                            {selectedLM}
+                            {lmFileName}
                         </Typography>
                     </Box>
                     <Button

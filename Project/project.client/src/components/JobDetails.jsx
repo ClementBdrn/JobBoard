@@ -1,13 +1,14 @@
 import React from 'react';
-import { Box, Typography, Grid, IconButton } from '@mui/material';
+import { Box, Typography, Grid, Button } from '@mui/material';
 import { Favorite, FavoriteBorder } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 export default function JobDetails({ selectedAd }) {
-    const [liked, setLiked] = React.useState(false);
+    const navigate = useNavigate();
 
-    const handleHeartClick = () => {
-        setLiked(!liked);
-    };
+    const redirect = () => {
+        navigate('/apply', { state: { selectedAd } })
+    }
 
     if (!selectedAd) {
         return (
@@ -46,28 +47,23 @@ export default function JobDetails({ selectedAd }) {
                     <Typography variant="h5" fontWeight="bold" sx={{ color: 'white' }}>
                         {selectedAd.name}
                     </Typography>
-                    <IconButton onClick={handleHeartClick} sx={{
-                        padding: 0,
-                        '&:focus': {
-                            outline: 'none',
-                        },
-                        '&:active': {
-                            outline: 'none',
-                        },
-                        '& .MuiTouchRipple-root': {
-                            display: 'none',
-                        },
-                    }} disableRipple disableFocusRipple>
-                        {liked ? (
-                            <Favorite sx={{ color: 'red' }} />
-                        ) : (
-                            <FavoriteBorder sx={{ color: '#9b59b6' }} />
-                        )}
-                    </IconButton>
                 </Box>
                 <Typography variant="body2" color="gray">
                     {selectedAd.companyName}
                 </Typography>
+                <Button
+                    variant="contained"
+                    sx={{
+                        backgroundColor: '#AC5FE9',
+                        '&:hover': { backgroundColor: '#8e44ad' },
+                        height: '50px',
+                        position: 'relative',
+                        left: '7px'
+                    }}
+                    onClick={redirect}
+                >
+                    POSTULER
+                </Button>
                 <Typography variant="h6" fontWeight="bold" sx={{ marginTop: 4 }}>
                     Type de poste: {selectedAd.contract} {/* Remplacez par le type dynamique */}
                 </Typography>

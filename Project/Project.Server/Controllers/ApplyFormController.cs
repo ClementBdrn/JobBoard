@@ -11,11 +11,11 @@ namespace Project.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ApplyController : ControllerBase
+    public class ApplyFormController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public ApplyController(ApplicationDbContext context)
+        public ApplyFormController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -45,8 +45,8 @@ namespace Project.Server.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> PostApply([FromBody] ApplyFormModel apply)
+        [HttpPost("sendInfos")]
+        public async Task<IActionResult> PostApply([FromBody] ApplyFormWithAdModel applyFormWithAd)
         {
             if (!ModelState.IsValid)
             {
@@ -55,14 +55,16 @@ namespace Project.Server.Controllers
 
             try
             {
-                _context.Applies.Add(apply);
+
+                applyFormWithAd.Apply.IdAdvertisements = applyFormWithAd.Advertisement.Id;
+                _context.Apply.Add(applyFormWithAd.Apply);
+
                 await _context.SaveChangesAsync();
 
                 return Ok(new { message = "Candidature soumise avec succès !" });
             }
             catch (Exception ex)
             {
-                // Journaliser l'erreur
                 Console.WriteLine($"Erreur lors de la soumission de la candidature : {ex.Message}");
                 return StatusCode(500, "Erreur interne du serveur");
             }
