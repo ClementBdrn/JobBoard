@@ -47,7 +47,7 @@ export default function JobList({ onAdSelect, advertisements }) {
             }
 
             const result = await response.json();
-            console.log('Favori ajout&#233; :', result);
+            console.log('Favori ajouté :', result);
         }
         catch (error) {
             console.error("Erreur lors de l'ajout aux favoris :", error);
@@ -65,7 +65,7 @@ export default function JobList({ onAdSelect, advertisements }) {
             }
 
             const result = await response.json();
-            console.log('Favori supprim&#233; :', result);
+            console.log('Favori supprimé :', result);
         } catch (error) {
             console.error("Erreur lors de la suppression des favoris :", error);
         }
@@ -81,7 +81,7 @@ export default function JobList({ onAdSelect, advertisements }) {
             return [];
         }
         catch (error) {
-            console.error("Erreur lors de la r&#233;cup&#233;ration des favoris :", error);
+            console.error("Erreur lors de la récupération des favoris :", error);
             return [];
         }
     };
@@ -134,7 +134,7 @@ export default function JobList({ onAdSelect, advertisements }) {
                             key={ad.id}
                             sx={{
                                 backgroundColor: 'black',
-                                border: '3px solid #AC5FE9',
+                                border: '1px solid #AC5FE9',
                                 marginBottom: 2,
                                 borderRadius: '10px',
                                 '&:hover': {
@@ -175,7 +175,7 @@ export default function JobList({ onAdSelect, advertisements }) {
                                         {ad.description}
                                     </Typography>
                                     <Typography variant="body2" color="gray">
-                                        Post&#233; il y a {calculateDaysAgo(ad.datePost)} jours
+                                        Posté il y a {calculateDaysAgo(ad.datePost)} jours
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
