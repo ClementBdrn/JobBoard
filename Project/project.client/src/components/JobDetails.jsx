@@ -33,7 +33,7 @@ export default function JobDetails({ selectedAd }) {
         >
             <Box
                 sx={{
-                    border: '1px solid #AC5FE9',
+                    border: '3px solid #AC5FE9',
                     borderRadius: '10px',
                     padding: 3,
                     height: '83vh',
@@ -55,10 +55,10 @@ export default function JobDetails({ selectedAd }) {
                     variant="contained"
                     sx={{
                         backgroundColor: '#AC5FE9',
-                        '&:hover': { backgroundColor: '#8e44ad' },
+                        '&:hover': { backgroundColor: '#8e44ad', transform: 'scale(1.03)', },
                         height: '50px',
                         position: 'relative',
-                        left: '7px'
+                        top: '10px'
                     }}
                     onClick={redirect}
                 >
